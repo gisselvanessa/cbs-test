@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import {  Poppins} from 'next/font/google'
 import "./globals.css";
 import { Navbar } from "@/components";
+import { ThemeModeScript } from "flowbite-react";
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -19,12 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeModeScript />
+      </head>
       <body
         className={`${poppins.className} antialiased`}
       >
         <Navbar/>
-        <h2>hola de nuevo</h2>
+        <h2 className="text-black">Bienvenido a cbs</h2>
         {children}
       </body>
     </html>
