@@ -19,3 +19,8 @@ body {
   background: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.b-gray-input{
+  border: 0.8px solid #40404080;
+  border-radius: 10px;
+}
