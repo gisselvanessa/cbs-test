@@ -108,6 +108,7 @@ export const UserFormModal = ({
               <div className="max-w-md">
                 <TextInput
                   id="email4"
+                  color="white"
                   type="text"
                   icon={() => <FaIdCard className="w-5 h-5 icon-color" />}
                   placeholder="100000000"

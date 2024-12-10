@@ -35,6 +35,7 @@ body {
   height: 45px;
   border-radius: 10px;
   background-color: white;
+  font-size: 13px;
 }
 .dark [type=checkbox]:checked, .dark [type=radio]:checked, [type=checkbox]:checked, [type=radio]:checked {
   border: 0.8px solid #EF7D00;
@@ -60,6 +61,12 @@ select:not([size]) {
   font-size: 13px;
 
 }
+select:focus, [type='text']:focus, [type='password']:focus {
+  outline: none; 
+  box-shadow: 0 0 0 1.7px #EF7D00; 
+  border: none;
+}
+
 select option[data-skip] {
   background-color: #c7cad1;
   color: #FFFF;
