@@ -1,6 +1,5 @@
 "use client";
 import {
-  Alert,
   Button,
   Datepicker,
   Label,
@@ -11,11 +10,13 @@ import {
 } from "flowbite-react";
 import Image from "next/image";
 import { BsFillLaptopFill } from "react-icons/bs";
-import {  FaIdCard, FaUser } from "react-icons/fa";
-import { HiBuildingOffice2, HiInformationCircle } from "react-icons/hi2";
+import { FaIdCard, FaUser } from "react-icons/fa";
+import { HiBuildingOffice2 } from "react-icons/hi2";
 import { IoMdMail } from "react-icons/io";
 import PasswordInput from "./passwordInput/PasswordInput";
 import { BiSolidCalendar } from "react-icons/bi";
+import { useState } from "react";
+import { AlertInfo } from "./alerts/AlertInfo";
 
 interface UserFormModalProps {
   openModal: boolean;
@@ -26,6 +27,17 @@ export const UserFormModal = ({
   openModal,
   handleClose,
 }: UserFormModalProps) => {
+  const [selectedDateActivation, setSelectedDateActivation] = useState<Date | null>(null); 
+  const [selectedDateExpiration, setSelectedDateExpiration] = useState<Date | null>(null); 
+  const handleDateExpirationChange = (date: Date | null) => {
+    setSelectedDateExpiration(date);
+    console.log("Fecha expiracion:", date);
+
+  };
+  const handleDateActivationChange = (date: Date | null) => {
+    setSelectedDateActivation(date);
+    console.log("Fecha activacion:", date);
+  };
   return (
     <>
       <Modal size={"5xl"} show={openModal} onClose={handleClose}>
@@ -53,19 +65,19 @@ export const UserFormModal = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Tipo de identificación */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Tipo de identificación <span className="text-red-600">*</span>
               </Label>
               <div className="grid grid-cols-2 gap-2">
                 <div className="flex items-center gap-2 b-gray-input p-2">
-                  <Radio id="cedula" name="user-data" value="cedula" />
-                  <Label className="text-xs font-normal" htmlFor="cedula">
+                  <Radio id="cedula" name="user-data" value="cedula" checked />
+                  <Label className="font-13 font-normal" htmlFor="cedula">
                     Cédula
                   </Label>
                 </div>
                 <div className="flex items-center gap-2 b-gray-input p-2">
                   <Radio id="passport" name="user-data" value="Passport" />
-                  <Label className="text-xs font-normal" htmlFor="passport">
+                  <Label className="font-13 font-normal" htmlFor="passport">
                     Pasaporte
                   </Label>
                 </div>
@@ -74,7 +86,7 @@ export const UserFormModal = ({
 
             {/* Identificación */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Identificación <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
@@ -91,14 +103,14 @@ export const UserFormModal = ({
 
             {/* Primer nombre */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Primer nombre <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
                 <TextInput
                   id="email4"
                   type="text"
-                  icon={() => <FaUser className="w-5 h-5 icon-color" />}
+                  icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese primer nombre"
                   color="white"
                   required
@@ -108,14 +120,14 @@ export const UserFormModal = ({
 
             {/* Segundo nombre */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Segundo nombre <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
                 <TextInput
                   id="email4"
                   type="text"
-                  icon={() => <FaUser className="w-5 h-5 icon-color" />}
+                  icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese segundo nombre"
                   color="white"
                   className="text-xs"
@@ -126,14 +138,14 @@ export const UserFormModal = ({
 
             {/* Apellido paterno */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Apellido paterno <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
                 <TextInput
                   id="email4"
                   type="text"
-                  icon={() => <FaUser className="w-5 h-5 icon-color" />}
+                  icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido paterno"
                   color="white"
                   required
@@ -143,14 +155,14 @@ export const UserFormModal = ({
 
             {/* Apellido materno */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Apellido materno <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
                 <TextInput
                   id="email4"
                   type="text"
-                  icon={() => <FaUser className="w-5 h-5 icon-color" />}
+                  icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido materno"
                   color="white"
                   required
@@ -159,7 +171,7 @@ export const UserFormModal = ({
             </div>
             {/* Sucursal */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Sucursal <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md relative">
@@ -167,7 +179,7 @@ export const UserFormModal = ({
                 <Select
                   id="sucursales"
                   color="white"
-                  className="text-black"
+                  className="custom-text-gray font-13"
                   required
                 >
                   <option disabled selected>
@@ -182,16 +194,16 @@ export const UserFormModal = ({
             </div>
             {/* Departamento */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Departamento <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md relative">
                 <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
                 <Select
                   id="departamentos"
-                  color="white"
-                  className="text-black"
+                  className="font-13 custom-text-gray"
                   required
+                  color="white"
                 >
                   <option selected disabled>
                     Seleccione
@@ -205,7 +217,7 @@ export const UserFormModal = ({
             </div>
             {/* Rol */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Rol <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md relative">
@@ -213,7 +225,7 @@ export const UserFormModal = ({
                 <Select
                   id="departamentos"
                   color="white"
-                  className="text-black"
+                  className="custom-text-gray font-13"
                   required
                 >
                   <option selected disabled>
@@ -228,7 +240,7 @@ export const UserFormModal = ({
             </div>
             {/* Correo Corporativo */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Correo corporativo <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
@@ -244,7 +256,7 @@ export const UserFormModal = ({
             </div>
             {/* IP */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Ip <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
@@ -262,55 +274,58 @@ export const UserFormModal = ({
             </div>
             {/* Nombre de usuario */}
             <div className="row-span-2">
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Nombre de usuario <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
                 <TextInput
                   id="email4"
                   type="text"
-                  icon={() => <FaUser className="w-5 h-5 icon-color" />}
+                  icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese un usuario"
                   color="white"
                   required
                 />
               </div>
-              <Alert
-                color="info"
-                icon={HiInformationCircle}
-                className="flex items-start"
-              >
-                Longitud de 5 a 8 caracteres. Incluye solo letras minúsculas. No
-                utilice espacios en blanco.
-              </Alert>
+
+              <AlertInfo
+                message="Longitud de 5 a 8 caracteres. Incluye solo letras minúsculas. No
+                utilice espacios en blanco."
+              />
             </div>
             {/* Fecha de activación */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Fecha de activación <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
                 <div className="w-full">
                   <Datepicker
-                    placeholder="Seleccione"
-                    className=""
+                    className="font-13"
                     language="es-ES"
+                    placeholder="Seleccione"
+                    value={selectedDateActivation}
+                    onChange={handleDateActivationChange} // Actualiza el estado cuando seleccionas una fecha
                     icon={() => (
                       <BiSolidCalendar className="w-5 h-5 icon-color" />
                     )}
                   />
+                  {/* <DatePickerModal/> */}
                 </div>
               </div>
             </div>
             {/* Fecha de vencimiento */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Fecha de vencimiento <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
                 <Datepicker
-                  className=""
+                  className="font-13"
                   language="es-ES"
+                  placeholder="Seleccione"
+                  value={selectedDateExpiration}
+                  onChange={handleDateExpirationChange}
                   icon={() => (
                     <BiSolidCalendar className="w-5 h-5 icon-color" />
                   )}
@@ -319,25 +334,24 @@ export const UserFormModal = ({
             </div>
             {/* Contraseña*/}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Contraseña <span className="text-red-600">*</span>
               </Label>
               <PasswordInput />
+              <AlertInfo message="Longitud de 8 a 16 caracteres. Incluye letras mayúsculas y minúsculas. Contiene 1 número (0-9). Contiene 1 carácter especial -!@#$%^&*. No contiene secuencias de letras o números como abc 1234 7777" />
             </div>
             {/* confirmar Contraseña */}
             <div>
-              <Label className="font-medium text-sm">
+              <Label className="font-medium font-13">
                 Confirmar contraseña <span className="text-red-600">*</span>
               </Label>
               <PasswordInput />
             </div>
           </div>
         </Modal.Body>
-        <Modal.Footer className="border-t-0">
-          <Button onClick={handleClose}>I accept</Button>
-          <Button color="gray" onClick={handleClose}>
-            Decline
-          </Button>
+        <Modal.Footer className="border-t-0 flex justify-end items-end pt-0">
+          <Button className="bg-orange-custom px-11" onClick={handleClose}>Guardar</Button>
+          
         </Modal.Footer>
       </Modal>
     </>
