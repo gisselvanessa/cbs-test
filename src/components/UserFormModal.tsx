@@ -27,16 +27,32 @@ export const UserFormModal = ({
   openModal,
   handleClose,
 }: UserFormModalProps) => {
-  const [selectedDateActivation, setSelectedDateActivation] = useState<Date | null>(null); 
-  const [selectedDateExpiration, setSelectedDateExpiration] = useState<Date | null>(null); 
+  const [selectedDateActivation, setSelectedDateActivation] =
+    useState<Date | null>(null);
+  const [selectedDateExpiration, setSelectedDateExpiration] =
+    useState<Date | null>(null);
   const handleDateExpirationChange = (date: Date | null) => {
     setSelectedDateExpiration(date);
     console.log("Fecha expiracion:", date);
-
   };
   const handleDateActivationChange = (date: Date | null) => {
     setSelectedDateActivation(date);
     console.log("Fecha activacion:", date);
+  };
+  const [selectedBranch, setSelectedBranch] = useState("select");
+  const [selectedDepartment, setSelectedDepartment] = useState("select");
+  const [selectedRole, setSelectedRole] = useState("select");
+  const handleChangeBranch = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBranch(event.target.value);
+    console.log(event.target.value);
+  };
+  const handleChangeDepartment = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedDepartment(event.target.value);
+    console.log(event.target.value);
+  };
+  const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedRole(event.target.value);
+    console.log(event.target.value);
   };
   return (
     <>
@@ -56,7 +72,7 @@ export const UserFormModal = ({
         </Modal.Header>
         <Modal.Body className="py-1">
           <div className="space-y-6">
-            <p className="text-xs leading-relaxed text-black dark:text-gray-400">
+            <p className="text-xs leading-relaxed text-black-custom dark:text-gray-400">
               Ingresa la información para registrar un nuevo usuario
             </p>
             {/* Otros contenidos del modal */}
@@ -70,7 +86,7 @@ export const UserFormModal = ({
               </Label>
               <div className="grid grid-cols-2 gap-2">
                 <div className="flex items-center gap-2 b-gray-input p-2">
-                  <Radio id="cedula" name="user-data" value="cedula" checked />
+                  <Radio id="cedula" name="user-data" value="cedula" />
                   <Label className="font-13 font-normal" htmlFor="cedula">
                     Cédula
                   </Label>
@@ -95,8 +111,8 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaIdCard className="w-5 h-5 icon-color" />}
                   placeholder="100000000"
-                  color="white"
                   required
+                  className="text-black-custom"
                 />
               </div>
             </div>
@@ -112,8 +128,8 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese primer nombre"
-                  color="white"
                   required
+                  className="text-black-custom"
                 />
               </div>
             </div>
@@ -129,8 +145,7 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese segundo nombre"
-                  color="white"
-                  className="text-xs"
+                  className="text-xs text-black-custom"
                   required
                 />
               </div>
@@ -147,7 +162,7 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido paterno"
-                  color="white"
+                  className="text-black-custom"
                   required
                 />
               </div>
@@ -164,7 +179,7 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido materno"
-                  color="white"
+                  className="text-black-custom"
                   required
                 />
               </div>
@@ -179,16 +194,18 @@ export const UserFormModal = ({
                 <Select
                   id="sucursales"
                   color="white"
-                  className="custom-text-gray font-13"
+                  className={`custom-text-gray font-13 ${selectedBranch === 'select' ? 'selected-option' : 'default-option'}`}
+                  value={selectedBranch}
+                  onChange={handleChangeBranch}
                   required
                 >
-                  <option disabled selected>
+                  <option data-skip value="select" disabled>
                     Seleccione
                   </option>
-                  <option>Sucursal 1</option>
-                  <option>Sucursal 2</option>
-                  <option>Sucursal 3</option>
-                  <option>Sucursal 4</option>
+                  <option value="1">Sucursal 1</option>
+                  <option value="2">Sucursal 2</option>
+                  <option value="3">Sucursal 3</option>
+                  <option value="4">Sucursal 4</option>
                 </Select>
               </div>
             </div>
@@ -201,17 +218,19 @@ export const UserFormModal = ({
                 <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
                 <Select
                   id="departamentos"
-                  className="font-13 custom-text-gray"
-                  required
                   color="white"
+                  className={`custom-text-gray font-13 ${selectedDepartment === 'select' ? 'selected-option' : 'default-option'}`}
+                  value={selectedDepartment}
+                  onChange={handleChangeDepartment}
+                  required
                 >
-                  <option selected disabled>
+                  <option data-skip value="select" disabled>
                     Seleccione
                   </option>
-                  <option>Departamento 1</option>
-                  <option>Departamento 2</option>
-                  <option>Departamento 3</option>
-                  <option>Departamento 4</option>
+                  <option value="1">Deaprtamento 1</option>
+                  <option value="2">Deaprtamento 2</option>
+                  <option value="3">Deaprtamento 3</option>
+                  <option value="4">Deaprtamento 4</option>
                 </Select>
               </div>
             </div>
@@ -223,18 +242,21 @@ export const UserFormModal = ({
               <div className="max-w-md relative">
                 <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
                 <Select
-                  id="departamentos"
+                  id="roles"
                   color="white"
-                  className="custom-text-gray font-13"
+                    className={`custom-text-gray font-13 ${selectedRole === 'select' ? 'selected-option' : 'default-option'}`}
+
+                  value={selectedRole}
+                  onChange={handleChangeRole}
                   required
                 >
-                  <option selected disabled>
+                  <option data-skip value="select" disabled>
                     Seleccione
                   </option>
-                  <option>Rol 1</option>
-                  <option>Rol 2</option>
-                  <option>Rol 3</option>
-                  <option>Rol 4</option>
+                  <option value="1">Rol 1</option>
+                  <option value="2">Rol 2</option>
+                  <option value="3">Rol 3</option>
+                  <option value="4">Rol 4</option>
                 </Select>
               </div>
             </div>
@@ -249,7 +271,7 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <IoMdMail className="w-5 h-5 icon-color" />}
                   placeholder="correo@servicio.com"
-                  color="white"
+                  className="text-black-custom"
                   required
                 />
               </div>
@@ -267,7 +289,7 @@ export const UserFormModal = ({
                     <BsFillLaptopFill className="w-5 h-5 icon-color" />
                   )}
                   placeholder="000.00.0.0"
-                  color="white"
+                  className="text-black-custom"
                   required
                 />
               </div>
@@ -283,7 +305,7 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese un usuario"
-                  color="white"
+                  className="text-black-custom"
                   required
                 />
               </div>
@@ -299,7 +321,7 @@ export const UserFormModal = ({
                 Fecha de activación <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
-                <div className="w-full">
+                <div className="w-full relative chevron-input">
                   <Datepicker
                     className="font-13"
                     language="es-ES"
@@ -320,16 +342,18 @@ export const UserFormModal = ({
                 Fecha de vencimiento <span className="text-red-600">*</span>
               </Label>
               <div className="max-w-md">
-                <Datepicker
-                  className="font-13"
-                  language="es-ES"
-                  placeholder="Seleccione"
-                  value={selectedDateExpiration}
-                  onChange={handleDateExpirationChange}
-                  icon={() => (
-                    <BiSolidCalendar className="w-5 h-5 icon-color" />
-                  )}
-                />
+                <div className="w-full relative chevron-input">
+                  <Datepicker
+                    className="font-13"
+                    language="es-ES"
+                    placeholder="Seleccione"
+                    value={selectedDateExpiration}
+                    onChange={handleDateExpirationChange}
+                    icon={() => (
+                      <BiSolidCalendar className="w-5 h-5 icon-color" />
+                    )}
+                  />
+                </div>
               </div>
             </div>
             {/* Contraseña*/}
@@ -350,8 +374,13 @@ export const UserFormModal = ({
           </div>
         </Modal.Body>
         <Modal.Footer className="border-t-0 flex justify-end items-end pt-0">
-          <Button className="bg-orange-custom px-11" onClick={handleClose}>Guardar</Button>
-          
+          <Button
+            color="white"
+            className="bg-orange-custom px-11"
+            onClick={handleClose}
+          >
+            Guardar
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
