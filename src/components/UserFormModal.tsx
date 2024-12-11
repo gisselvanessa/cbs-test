@@ -17,7 +17,7 @@ import PasswordInput from "./passwordInput/PasswordInput";
 import { BiSolidCalendar } from "react-icons/bi";
 import { useState } from "react";
 import { AlertInfo } from "./alerts/AlertInfo";
-import { Formik, Field, Form, ErrorMessage, FieldProps } from "formik";
+import { Formik, Field, Form, FieldProps } from "formik";
 import { ValidationSchema } from "../app/utils/ValidationSchema";
 
 interface UserFormModalProps {
@@ -78,21 +78,25 @@ export const UserFormModal = ({
     setSelectedDateActivation(date);
     console.log("Fecha activacion:", date);
   };
-  const [selectedBranch, setSelectedBranch] = useState("select");
-  const [selectedDepartment, setSelectedDepartment] = useState("select");
-  const [selectedRole, setSelectedRole] = useState("select");
-  const handleChangeBranch = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const [selectedBranch, setSelectedBranch] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+  const handleChangeBranch = ( event: React.ChangeEvent<HTMLSelectElement>, field) => {
     setSelectedBranch(event.target.value);
+    field.onChange(event);
     console.log(event.target.value);
   };
-  const handleChangeDepartment = (
-    event: React.ChangeEvent<HTMLSelectElement>
+  const handleChangeDepartment = ( event: React.ChangeEvent<HTMLSelectElement>, field
   ) => {
     setSelectedDepartment(event.target.value);
+    field.onChange(event);
+
     console.log(event.target.value);
   };
-  const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeRole = ( event: React.ChangeEvent<HTMLSelectElement>, field) => {
     setSelectedRole(event.target.value);
+    field.onChange(event);
+
     console.log(event.target.value);
   };
   return (
@@ -105,9 +109,9 @@ export const UserFormModal = ({
         secondName: '',
         lastNameFather: '',
         lastNameMother: '',
-        branch: '',
-        department: '',
-        role: '',
+        branch: selectedBranch,
+        department: selectedDepartment,
+        role: selectedRole,
         corporateEmail: '',
         ipAddress: '',
         username: '',
@@ -162,7 +166,6 @@ export const UserFormModal = ({
                         checked={field.value === "cedula"} // Compara el valor actual con el valor del radio
                         
                         theme={customThemeRadioButton}
-                        defaultChecked
                       />
                       <Label className="font-13 font-normal" htmlFor="cedula">
                         Cédula
@@ -186,7 +189,7 @@ export const UserFormModal = ({
 
                   {/* Mostrar el error si lo hay */}
                   {meta.touched && meta.error && (
-                    <div className="text-red-600 text-sm">{meta.error}</div>
+                    <div className="text-red-600 text-xs">{meta.error}</div>
                   )}
                 </div>
               )}
@@ -216,7 +219,7 @@ export const UserFormModal = ({
                   </div>
                   {/* Mostrar el error si lo hay */}
                   {meta.touched && meta.error && (
-                    <div className="text-red-600 text-sm">{meta.error}</div>
+                    <div className="text-red-600 text-xs">{meta.error}</div>
                   )}
                 </div>
               )}
@@ -239,7 +242,7 @@ export const UserFormModal = ({
                   />
                   {/* Mostrar el error si lo hay */}
                   {meta.touched && meta.error && (
-                    <div className="text-red-600 text-sm">{meta.error}</div>
+                    <div className="text-red-600 text-xs">{meta.error}</div>
                   )}
                 </div>
               )}
@@ -262,7 +265,7 @@ export const UserFormModal = ({
                   />
                   {/* Mostrar el error si lo hay */}
                   {meta.touched && meta.error && (
-                    <div className="text-red-600 text-sm">{meta.error}</div>
+                    <div className="text-red-600 text-xs">{meta.error}</div>
                   )}
                 </div>
               )}
@@ -285,7 +288,7 @@ export const UserFormModal = ({
                   />
                   {/* Mostrar el error si lo hay */}
                   {meta.touched && meta.error && (
-                    <div className="text-red-600 text-sm">{meta.error}</div>
+                    <div className="text-red-600 text-xs">{meta.error}</div>
                   )}
                 </div>
               )}
@@ -308,7 +311,7 @@ export const UserFormModal = ({
                   />
                   {/* Mostrar el error si lo hay */}
                   {meta.touched && meta.error && (
-                    <div className="text-red-600 text-sm">{meta.error}</div>
+                    <div className="text-red-600 text-xs">{meta.error}</div>
                   )}
                 </div>
                 )}
@@ -326,11 +329,13 @@ export const UserFormModal = ({
                       {...field} // Bind Formik field
                       id="branch"
                       value={field.value} // Set value from Formik's field value
-                      onChange={field.onChange} // Bind Formik's onChange
-                      className={`custom-text-gray font-13 ${selectedBranch === 'select' ? 'selected-option' : 'default-option'}`}
+                      onChange={(event)=>handleChangeBranch(event, field)} // Bind Formik's onChange
+                      className={`custom-text-gray font-13 ${selectedBranch === '' ? 'selected-option' : 'default-option'}`}
                       required
+                      color="white"
+
                     >
-                      <option value="select" disabled>
+                      <option value="" data-skip disabled>
                         Seleccione
                       </option>
                       <option value="1">Sucursal 1</option>
@@ -340,7 +345,7 @@ export const UserFormModal = ({
                     </Select>
                     {/* Error Handling */}
                     {meta.touched && meta.error && (
-                      <div className="text-red-600 text-sm">{meta.error}</div>
+                      <div className="text-red-600 text-xs">{meta.error}</div>
                     )}
                   </div>
                 </div>
@@ -350,7 +355,7 @@ export const UserFormModal = ({
             <Field name="department">
               {({field,meta}: FieldProps)=>(
                 <div>  
-                  <Label htmlFor="branch" className="font-medium font-13">
+                  <Label htmlFor="department" className="font-medium font-13">
                       Departamento <span className="text-red-600">*</span>
                   </Label>
                   <div className="max-w-md relative">
@@ -359,12 +364,12 @@ export const UserFormModal = ({
                         {...field}
                         id="departamentos"
                         color="white"
-                        className={`custom-text-gray font-13 ${selectedDepartment === 'select' ? 'selected-option' : 'default-option'}`}
+                        className={`custom-text-gray font-13 ${selectedDepartment === '' ? 'selected-option' : 'default-option'}`}
                         value={field.value} // Set value from Formik's field value
-                        onChange={field.onChange} // Bind Formik's onChange
+                        onChange={(event)=>handleChangeDepartment(event, field)} // Bind Formik's onChange
                         required
                       >
-                        <option data-skip value="select" disabled>
+                        <option data-skip value="" disabled>
                           Seleccione
                         </option>
                         <option value="1">Deaprtamento 1</option>
@@ -374,7 +379,7 @@ export const UserFormModal = ({
                       </Select>
                       {/* Error Handling */}
                       {meta.touched && meta.error && (
-                        <div className="text-red-600 text-sm">{meta.error}</div>
+                        <div className="text-red-600 text-xs">{meta.error}</div>
                       )}
                   </div>
                 </div>
@@ -393,12 +398,12 @@ export const UserFormModal = ({
                       {...field}
                       id="role"
                       color="white"
-                      className={`custom-text-gray font-13 ${selectedRole === 'select' ? 'selected-option' : 'default-option'}`}
+                      className={`custom-text-gray font-13 ${selectedRole === '' ? 'selected-option' : 'default-option'}`}
                       value={field.value} // Set value from Formik's field value
-                      onChange={field.onChange} // Bind Formik's onChange
+                      onChange={(event)=>handleChangeRole(event, field)} // Bind Formik's onChange
                       required
                     >
-                      <option data-skip value="select" disabled>
+                      <option data-skip value="" disabled>
                         Seleccione
                       </option>
                       <option value="1">Rol 1</option>
@@ -408,7 +413,7 @@ export const UserFormModal = ({
                     </Select>
                     {/* Error Handling */}
                       {meta.touched && meta.error && (
-                        <div className="text-red-600 text-sm">{meta.error}</div>
+                        <div className="text-red-600 text-xs">{meta.error}</div>
                       )}
                   </div>
                 </div>
@@ -434,7 +439,7 @@ export const UserFormModal = ({
                     />
                     {/* Error Handling */}
                     {meta.touched && meta.error && (
-                      <div className="text-red-600 text-sm">{meta.error}</div>
+                      <div className="text-red-600 text-xs">{meta.error}</div>
                     )}
                   </div>
                 </div>
@@ -461,7 +466,7 @@ export const UserFormModal = ({
                   />
                   {/* Error Handling */}
                     {meta.touched && meta.error && (
-                      <div className="text-red-600 text-sm">{meta.error}</div>
+                      <div className="text-red-600 text-xs">{meta.error}</div>
                     )}
                 </div>
               </div>
@@ -486,9 +491,13 @@ export const UserFormModal = ({
                     />
                     {/* Error Handling */}
                     {meta.touched && meta.error && (
-                      <div className="text-red-600 text-sm">{meta.error}</div>
+                      <div className="text-red-600 text-xs">{meta.error}</div>
                     )}
                   </div>
+                  <AlertInfo
+                message="Longitud de 5 a 8 caracteres. Incluye solo letras minúsculas. No
+                utilice espacios en blanco."
+              />
                 </div>
               )}
             </Field>
@@ -518,7 +527,7 @@ export const UserFormModal = ({
                       />
                       {/* Error Message */}
                       {meta.touched && meta.error && (
-                        <div className="text-red-600 text-sm">{meta.error}</div>
+                        <div className="text-red-600 text-xs">{meta.error}</div>
                       )}
                     </div>
                   </div>
@@ -551,7 +560,7 @@ export const UserFormModal = ({
                       />
                       {/* Error Message */}
                       {meta.touched && meta.error && (
-                        <div className="text-red-600 text-sm">{meta.error}</div>
+                        <div className="text-red-600 text-xs">{meta.error}</div>
                       )}
                     </div>
                   </div>
@@ -566,10 +575,12 @@ export const UserFormModal = ({
                     Contraseña <span className="text-red-600">*</span>
                   </Label>
                   <PasswordInput {...field}/>
+
                     {/* Error Message */}
                     {meta.touched && meta.error && (
-                      <div className="text-red-600 text-sm">{meta.error}</div>
+                      <div className="text-red-600 text-xs">{meta.error}</div>
                     )}
+                    <AlertInfo message="Longitud de 8 a 16 caracteres. Incluye letras mayúsculas y minúsculas. Contiene 1 número (0-9). Contiene 1 carácter especial -!@#$%^&*. No contiene secuencias de letras o números como abc 1234 7777" />
                 </div>
               )}
             </Field>
@@ -583,7 +594,7 @@ export const UserFormModal = ({
                   <PasswordInput {...field} />
                     {/* Error Message */}
                     {meta.touched && meta.error && (
-                      <div className="text-red-600 text-sm">{meta.error}</div>
+                      <div className="text-red-600 text-xs">{meta.error}</div>
                     )}
                 </div>
               )}

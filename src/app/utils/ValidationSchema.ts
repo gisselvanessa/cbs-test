@@ -7,38 +7,38 @@ export const ValidationSchema = Yup.object({
 
     // Identificación
     identification: Yup.string()
-        .matches(/^\d+$/, 'La identificación debe ser solo números')
-        .length(10, 'La identificación debe tener exactamente 10 dígitos')
+        .matches(/^\d+$/, 'La identificación no es válida')
+        .min(10, 'La identificación debe tener al menos 10 dígitos')
         .required('Identificación es requerida'),
 
     // Primer nombre
-    firstName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El primer nombre solo puede contener letras') // Solo letras, incluyendo letras con acento y ñ
-        .required('Primer nombre es requerido'),
+    firstName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El primer nombre no es válido') // Solo letras, incluyendo letras con acento y ñ
+        .required('El primer nombre es requerido'),
 
     // Segundo nombre
-    secondName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El segundo nombre solo puede contener letras')
-        .required('Segundo nombre es requerido'),
+    secondName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El segundo nombre no es válido')
+        .required('El segundo nombre es requerido'),
 
     // Apellido paterno
-    lastName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El primer apellido solo puede contener letras')
-        .required('Apellido paterno es requerido'),
+    lastName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El primer apellido no es válido')
+        .required('El apellido paterno es requerido'),
 
     // Apellido materno
-    motherLastName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El segundo apellido solo puede contener letras')
-        .required('Apellido materno es requerido'),
+    motherLastName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El segundo apellido no es válido')
+        .required('El apellido materno es requerido'),
 
     // Sucursal
-    branch: Yup.string().required('Sucursal es requerida'),
+    branch: Yup.string().required('La sucursal es requerida'),
 
     // Departamento
-    department: Yup.string().required('Departamento es requerido'),
+    department: Yup.string().required('El departamento es requerido'),
 
     // Rol
-    role: Yup.string().required('Rol es requerido'),
+    role: Yup.string().required('El rol es requerido'),
 
     // Correo corporativo
     corporateEmail: Yup.string()
-        .email('El correo debe ser válido')
+        .email('El correo no es válido')
         .required('Correo corporativo es requerido'),
 
     // IP
@@ -70,7 +70,7 @@ export const ValidationSchema = Yup.object({
         .matches(/[A-Z]/, 'La contraseña debe contener al menos una letra mayúscula')
         .matches(/[0-9]/, 'La contraseña debe contener al menos un número')
         .matches(/[-!@#$%^&*()_+={}\[\]:;"<>,.?/\\|]/, 'La contraseña debe contener al menos un carácter especial')
-        .required('Contraseña es requerida'),
+        .required('La contraseña es requerida'),
 
     // Confirmar contraseña
     confirmPassword: Yup.string()
