@@ -70,17 +70,20 @@ export const UserFormModal = ({
     useState<Date | null>(null);
   const [selectedDateExpiration, setSelectedDateExpiration] =
     useState<Date | null>(null);
-  const handleDateExpirationChange = (date: Date | null) => {
-    setSelectedDateExpiration(date);
-    console.log("Fecha expiracion:", date);
-  };
-  const handleDateActivationChange = (date: Date | null) => {
-    setSelectedDateActivation(date);
-    console.log("Fecha activacion:", date);
-  };
   const [selectedBranch, setSelectedBranch] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
+
+  const handleDateExpirationChange = (date: Date | null, field) => {
+    setSelectedDateExpiration(date);
+    console.log("Fecha expiracion:", date);
+    field.onChange({ target: { name: field.name, value: date } });
+  };
+  const handleDateActivationChange = (date: Date | null, field) => {
+    setSelectedDateActivation(date);
+    console.log("Fecha activacion:", date);
+    field.onChange({ target: { name: field.name, value: date } });
+  };
   const handleChangeBranch = ( event: React.ChangeEvent<HTMLSelectElement>, field) => {
     setSelectedBranch(event.target.value);
     field.onChange(event);
@@ -516,7 +519,7 @@ export const UserFormModal = ({
                         language="es-ES"
                         placeholder="Seleccione"
                         value={selectedDateActivation}
-                        onChange={handleDateActivationChange} // Actualiza el estado cuando seleccionas una fecha
+                        onChange={(date: Date | null) => {handleDateActivationChange(date, field);}} // Actualiza el estado cuando seleccionas una fecha
                         icon={() => (
                           <BiSolidCalendar className="w-5 h-5 icon-color" />
                         )}
@@ -549,7 +552,7 @@ export const UserFormModal = ({
                         language="es-ES"
                         placeholder="Seleccione"
                         value={selectedDateExpiration}
-                        onChange={handleDateExpirationChange}
+                        onChange={(date: Date | null) => {handleDateExpirationChange(date, field);}}
                         icon={() => (
                           <BiSolidCalendar className="w-5 h-5 icon-color" />
                         )}

@@ -84,7 +84,7 @@ select option:not([data-skip]) {
   content: "";
   position: absolute;
   right: 0.6rem; 
-  top: 50%;
+  top: 22.5px;
   transform: translateY(-50%);
   width: 17.44px;
   height: 9.4px;
