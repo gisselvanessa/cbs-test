@@ -27,6 +27,43 @@ export const UserFormModal = ({
   openModal,
   handleClose,
 }: UserFormModalProps) => {
+  const customThemeDatepicker = {
+    popup: {
+      root: {
+      "base": "absolute top-10 z-50 block pt-2",
+      "inline": "relative top-0 z-auto",
+      "inner": "absolute rounded-lg bg-white p-4 z-100 shadow-lg dark:bg-gray-700"
+    },
+      footer: {
+        base: "mt-2 flex space-x-2",
+        button: {
+          base: "w-full rounded-lg px-5 py-2 text-center text-sm font-medium focus:ring-4 focus:ring-cyan-300",
+          today:
+            "bg-orange-custom text-white hover:bg-orange-custom dark:bg-orange-custom dark:hover:bg-orange-custom",
+          clear:
+            "border border-gray-300 bg-white text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600",
+        },
+      },
+    },
+    views: {
+      days: {
+        items: {
+          base: "grid w-64 grid-cols-7",
+          item: {
+            base: "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600",
+            selected: "bg-orange-custom text-white hover:bg-orange-custom",
+            disabled: "text-gray-500",
+          },
+        },
+      },
+    },
+  };
+  const customThemeRadioButton = {
+    root: {
+      base: "h-4 w-4 border border-gray-300 text-orange-600 focus:ring-2 focus:ring-orange-400 dark:border-gray-600 dark:bg-gray-700 dark:focus:bg-orange-600 dark:focus:ring-orange-600",
+    },
+  };
+
   const [selectedDateActivation, setSelectedDateActivation] =
     useState<Date | null>(null);
   const [selectedDateExpiration, setSelectedDateExpiration] =
@@ -46,7 +83,9 @@ export const UserFormModal = ({
     setSelectedBranch(event.target.value);
     console.log(event.target.value);
   };
-  const handleChangeDepartment = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeDepartment = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedDepartment(event.target.value);
     console.log(event.target.value);
   };
@@ -86,13 +125,24 @@ export const UserFormModal = ({
               </Label>
               <div className="grid grid-cols-2 gap-2">
                 <div className="flex items-center gap-2 b-gray-input p-2">
-                  <Radio id="cedula" name="user-data" value="cedula" />
+                  <Radio
+                    theme={customThemeRadioButton}
+                    id="cedula"
+                    name="user-data"
+                    value="cedula"
+                    defaultChecked
+                  />
                   <Label className="font-13 font-normal" htmlFor="cedula">
                     Cédula
                   </Label>
                 </div>
                 <div className="flex items-center gap-2 b-gray-input p-2">
-                  <Radio id="passport" name="user-data" value="Passport" />
+                  <Radio
+                    theme={customThemeRadioButton}
+                    id="passport"
+                    name="user-data"
+                    value="Passport"
+                  />
                   <Label className="font-13 font-normal" htmlFor="passport">
                     Pasaporte
                   </Label>
@@ -195,7 +245,11 @@ export const UserFormModal = ({
                 <Select
                   id="sucursales"
                   color="white"
-                  className={`custom-text-gray font-13 ${selectedBranch === 'select' ? 'selected-option' : 'default-option'}`}
+                  className={`custom-text-gray font-13 ${
+                    selectedBranch === "select"
+                      ? "selected-option"
+                      : "default-option"
+                  }`}
                   value={selectedBranch}
                   onChange={handleChangeBranch}
                   required
@@ -220,7 +274,11 @@ export const UserFormModal = ({
                 <Select
                   id="departamentos"
                   color="white"
-                  className={`custom-text-gray font-13 ${selectedDepartment === 'select' ? 'selected-option' : 'default-option'}`}
+                  className={`custom-text-gray font-13 ${
+                    selectedDepartment === "select"
+                      ? "selected-option"
+                      : "default-option"
+                  }`}
                   value={selectedDepartment}
                   onChange={handleChangeDepartment}
                   required
@@ -245,8 +303,11 @@ export const UserFormModal = ({
                 <Select
                   id="roles"
                   color="white"
-                    className={`custom-text-gray font-13 ${selectedRole === 'select' ? 'selected-option' : 'default-option'}`}
-
+                  className={`custom-text-gray font-13 ${
+                    selectedRole === "select"
+                      ? "selected-option"
+                      : "default-option"
+                  }`}
                   value={selectedRole}
                   onChange={handleChangeRole}
                   required
@@ -325,7 +386,10 @@ export const UserFormModal = ({
                 <div className="w-full relative chevron-input">
                   <Datepicker
                     className="font-13"
+                    theme={customThemeDatepicker}
                     language="es-ES"
+                    labelTodayButton="Hoy"
+                    labelClearButton="Limpiar"
                     placeholder="Seleccione"
                     value={selectedDateActivation}
                     onChange={handleDateActivationChange} // Actualiza el estado cuando seleccionas una fecha
@@ -346,7 +410,10 @@ export const UserFormModal = ({
                 <div className="w-full relative chevron-input">
                   <Datepicker
                     className="font-13"
+                    theme={customThemeDatepicker}
                     language="es-ES"
+                    labelTodayButton="Hoy"
+                    labelClearButton="Limpiar"
                     placeholder="Seleccione"
                     value={selectedDateExpiration}
                     onChange={handleDateExpirationChange}

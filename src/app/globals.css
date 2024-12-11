@@ -31,7 +31,8 @@ body {
   height: 45px;
 }
 [type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select, radial {
-  border-color: #40404080;
+  /* border-color: #40404080; */
+  border: 0.8px solid #40404080;
   height: 45px;
   border-radius: 10px;
   background-color: white;
@@ -149,4 +150,8 @@ input::placeholder {
 }
 .default-option {
   color: #404040;
+}
+select option:hover {
+  background-color: #17274e;
+  
 }
