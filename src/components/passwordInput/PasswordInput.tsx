@@ -3,7 +3,12 @@ import { TextInput, Button, Popover } from 'flowbite-react';
 import { MdRemoveRedEye } from 'react-icons/md';
 import { IoIosLock, IoMdEyeOff } from 'react-icons/io';
 import "./styles.css";
-const PasswordInput = () => {
+
+interface PasswordInputProps extends React.ComponentProps<typeof TextInput> {
+  name?: string;
+}
+
+const PasswordInput = (props: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -88,6 +93,7 @@ const PasswordInput = () => {
       >
         <div className="relative max-w-md">
           <TextInput
+            {...props}
             id="password1"
             type={showPassword ? 'text' : 'password'}
             placeholder="Ingrese su contraseña"

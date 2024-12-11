@@ -17,6 +17,8 @@ import PasswordInput from "./passwordInput/PasswordInput";
 import { BiSolidCalendar } from "react-icons/bi";
 import { useState } from "react";
 import { AlertInfo } from "./alerts/AlertInfo";
+import { Formik, Field, Form, ErrorMessage, FieldProps } from "formik";
+import { ValidationSchema } from "../app/utils/ValidationSchema";
 
 interface UserFormModalProps {
   openModal: boolean;
@@ -56,6 +58,31 @@ export const UserFormModal = ({
   };
   return (
     <>
+      <Formik
+      initialValues={{
+        idType: '',
+        idNumber: '',
+        firstName: '',
+        secondName: '',
+        lastNameFather: '',
+        lastNameMother: '',
+        branch: '',
+        department: '',
+        role: '',
+        corporateEmail: '',
+        ipAddress: '',
+        username: '',
+        activationDate: selectedDateActivation,
+        expirationDate: selectedDateExpiration,
+        password: '',
+        confirmPassword: '',
+      }}
+      validationSchema={ValidationSchema}
+      onSubmit={(values) => {
+        console.log('Formulario enviado', values);
+        // Aquí puedes manejar el envío del formulario
+      }}
+    >{() => (
       <Modal size={"5xl"} show={openModal} onClose={handleClose}>
         <Modal.Header className="items-center border-b-0 pb-2 pt-3">
           <div className="flex">
@@ -77,302 +104,442 @@ export const UserFormModal = ({
             </p>
             {/* Otros contenidos del modal */}
           </div>
-
+          <Form>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Tipo de identificación */}
-            <div>
-              <Label className="font-medium font-13">
-                Tipo de identificación <span className="text-red-600">*</span>
-              </Label>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="flex items-center gap-2 b-gray-input p-2">
-                  <Radio id="cedula" name="user-data" value="cedula" />
-                  <Label className="font-13 font-normal" htmlFor="cedula">
-                    Cédula
+            <Field name="identificationType">
+              {({ field, meta }: FieldProps) => (
+                <div>
+                  <Label className="font-medium font-13">
+                    Tipo de identificación <span className="text-red-600">*</span>
                   </Label>
-                </div>
-                <div className="flex items-center gap-2 b-gray-input p-2">
-                  <Radio id="passport" name="user-data" value="Passport" />
-                  <Label className="font-13 font-normal" htmlFor="passport">
-                    Pasaporte
-                  </Label>
-                </div>
-              </div>
-            </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="flex items-center gap-2 b-gray-input p-2">
+                      <Radio
+                        {...field} // Para manejar el campo de Formik
+                        id="cedula"
+                        name="identificationType"
+                        value="cedula" // El valor de este radio button será "cedula"
+                        checked={field.value === "cedula"} // Compara el valor actual con el valor del radio
+                        className="focus:ring-blue-500"
+                      />
+                      <Label className="font-13 font-normal" htmlFor="cedula">
+                        Cédula
+                      </Label>
+                    </div>
+                    <div className="flex items-center gap-2 b-gray-input p-2">
+                      <Radio
+                        {...field}
+                        id="passport"
+                        name="identificationType"
+                        value="passport"
+                        checked={field.value === "passport"} // Compara el valor actual con el valor del radio
+                        className="focus:ring-blue-500"
+                      />
+                      <Label className="font-13 font-normal" htmlFor="passport">
+                        Pasaporte
+                      </Label>
+                    </div>
+                  </div>
 
+                  {/* Mostrar el error si lo hay */}
+                  {meta.touched && meta.error && (
+                    <div className="text-red-600 text-sm">{meta.error}</div>
+                  )}
+                </div>
+              )}
+            </Field>
             {/* Identificación */}
-            <div>
-              <Label className="font-medium font-13">
-                Identificación <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <TextInput
-                  id="email4"
-                  color="white"
-                  type="text"
-                  icon={() => <FaIdCard className="w-5 h-5 icon-color" />}
-                  placeholder="100000000"
-                  required
-                  className="text-black-custom"
-                />
-              </div>
-            </div>
-
+            <Field name="identification">
+              {({ field, meta }: FieldProps) => (
+                <div>
+                  <Label htmlFor="identification" className="font-medium font-13">
+                    Identificación <span className="text-red-600">*</span>
+                  </Label>
+                  <div className="max-w-md">
+                    <TextInput
+                      {...field}
+                      id="identification"
+                      color="white"
+                      type="text"
+                      icon={() => <FaIdCard className="w-5 h-5 icon-color" />}
+                      placeholder="100000000"
+                      required
+                      className="text-black-custom"
+                      onInput={(e) => {
+                        const input = e.target as HTMLInputElement;
+                        input.value = input.value.replace(/[^0-9]/g, '');
+                      }}
+                    />
+                  </div>
+                  {/* Mostrar el error si lo hay */}
+                  {meta.touched && meta.error && (
+                    <div className="text-red-600 text-sm">{meta.error}</div>
+                  )}
+                </div>
+              )}
+            </Field>
             {/* Primer nombre */}
-            <div>
-              <Label className="font-medium font-13">
-                Primer nombre <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <TextInput
-                  id="email4"
+            <Field name="firstName">
+              {({ field, meta }: FieldProps) => (
+                <div>
+                  <Label htmlFor="firstName" className="font-medium font-13">
+                    Primer nombre <span className="text-red-600">*</span>
+                  </Label>
+                  <TextInput
+                  {...field}
+                  id="firstName"
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese primer nombre"
                   required
                   className="text-black-custom"
-                />
-              </div>
-            </div>
-
+                  />
+                  {/* Mostrar el error si lo hay */}
+                  {meta.touched && meta.error && (
+                    <div className="text-red-600 text-sm">{meta.error}</div>
+                  )}
+                </div>
+              )}
+            </Field>
             {/* Segundo nombre */}
-            <div>
-              <Label className="font-medium font-13">
-                Segundo nombre <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <TextInput
-                  id="email4"
+            <Field name="secondName">
+              {({ field, meta }: FieldProps) => (
+                <div>
+                  <Label htmlFor="secondName" className="font-medium font-13">
+                    Segundo nombre <span className="text-red-600">*</span>
+                  </Label>
+                  <TextInput
+                  {...field}
+                  id="secondName"
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese segundo nombre"
-                  className="text-xs text-black-custom"
                   required
-                />
-              </div>
-            </div>
-
+                  className="text-black-custom"
+                  />
+                  {/* Mostrar el error si lo hay */}
+                  {meta.touched && meta.error && (
+                    <div className="text-red-600 text-sm">{meta.error}</div>
+                  )}
+                </div>
+              )}
+            </Field>
             {/* Apellido paterno */}
-            <div>
-              <Label className="font-medium font-13">
-                Apellido paterno <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <TextInput
-                  id="email4"
+            <Field name="lastName">
+              {({ field, meta }: FieldProps) => (
+                <div>
+                  <Label htmlFor="lastName" className="font-medium font-13">
+                    Apellido paterno <span className="text-red-600">*</span>
+                  </Label>
+                  <TextInput
+                  {...field}
+                  id="lastName"
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido paterno"
-                  className="text-black-custom"
                   required
-                />
-              </div>
-            </div>
-
+                  className="text-black-custom"
+                  />
+                  {/* Mostrar el error si lo hay */}
+                  {meta.touched && meta.error && (
+                    <div className="text-red-600 text-sm">{meta.error}</div>
+                  )}
+                </div>
+              )}
+            </Field>
             {/* Apellido materno */}
-            <div>
-              <Label className="font-medium font-13">
-                Apellido materno <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <TextInput
-                  id="email4"
+            <Field name="motherLastName">
+              {({ field, meta }: FieldProps) => (
+                <div>
+                  <Label htmlFor="motherLastName" className="font-medium font-13">
+                    Apellido materno <span className="text-red-600">*</span>
+                  </Label>
+                  <TextInput
+                  {...field}
+                  id="motherLastName"
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido materno"
+                  required
                   className="text-black-custom"
-                  required
-                />
-              </div>
-            </div>
-            {/* Sucursal */}
-            <div>
-              <Label className="font-medium font-13">
-                Sucursal <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md relative">
-                <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
-                <Select
-                  id="sucursales"
-                  color="white"
-                  className={`custom-text-gray font-13 ${selectedBranch === 'select' ? 'selected-option' : 'default-option'}`}
-                  value={selectedBranch}
-                  onChange={handleChangeBranch}
-                  required
-                >
-                  <option data-skip value="select" disabled>
-                    Seleccione
-                  </option>
-                  <option value="1">Sucursal 1</option>
-                  <option value="2">Sucursal 2</option>
-                  <option value="3">Sucursal 3</option>
-                  <option value="4">Sucursal 4</option>
-                </Select>
-              </div>
-            </div>
-            {/* Departamento */}
-            <div>
-              <Label className="font-medium font-13">
-                Departamento <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md relative">
-                <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
-                <Select
-                  id="departamentos"
-                  color="white"
-                  className={`custom-text-gray font-13 ${selectedDepartment === 'select' ? 'selected-option' : 'default-option'}`}
-                  value={selectedDepartment}
-                  onChange={handleChangeDepartment}
-                  required
-                >
-                  <option data-skip value="select" disabled>
-                    Seleccione
-                  </option>
-                  <option value="1">Deaprtamento 1</option>
-                  <option value="2">Deaprtamento 2</option>
-                  <option value="3">Deaprtamento 3</option>
-                  <option value="4">Deaprtamento 4</option>
-                </Select>
-              </div>
-            </div>
-            {/* Rol */}
-            <div>
-              <Label className="font-medium font-13">
-                Rol <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md relative">
-                <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
-                <Select
-                  id="roles"
-                  color="white"
-                    className={`custom-text-gray font-13 ${selectedRole === 'select' ? 'selected-option' : 'default-option'}`}
-
-                  value={selectedRole}
-                  onChange={handleChangeRole}
-                  required
-                >
-                  <option data-skip value="select" disabled>
-                    Seleccione
-                  </option>
-                  <option value="1">Rol 1</option>
-                  <option value="2">Rol 2</option>
-                  <option value="3">Rol 3</option>
-                  <option value="4">Rol 4</option>
-                </Select>
-              </div>
-            </div>
-            {/* Correo Corporativo */}
-            <div>
-              <Label className="font-medium font-13">
-                Correo corporativo <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <TextInput
-                  id="email4"
-                  type="text"
-                  icon={() => <IoMdMail className="w-5 h-5 icon-color" />}
-                  placeholder="correo@servicio.com"
-                  className="text-black-custom"
-                  required
-                />
-              </div>
-            </div>
-            {/* IP */}
-            <div>
-              <Label className="font-medium font-13">
-                Ip <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <TextInput
-                  id="email4"
-                  type="text"
-                  icon={() => (
-                    <BsFillLaptopFill className="w-5 h-5 icon-color" />
+                  />
+                  {/* Mostrar el error si lo hay */}
+                  {meta.touched && meta.error && (
+                    <div className="text-red-600 text-sm">{meta.error}</div>
                   )}
-                  placeholder="000.00.0.0"
-                  className="text-black-custom"
-                  required
-                />
-              </div>
-            </div>
-            {/* Nombre de usuario */}
-            <div className="row-span-2">
-              <Label className="font-medium font-13">
-                Nombre de usuario <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <TextInput
-                  id="email4"
-                  type="text"
-                  icon={() => <FaUser className="w-4 h-4 icon-color" />}
-                  placeholder="Ingrese un usuario"
-                  className="text-black-custom"
-                  required
-                />
-              </div>
+                </div>
+                )}
+            </Field>
+            {/* Sucursal */}
+            <Field name="branch">
+              {({ field, meta }: FieldProps) => (
+                <div>
+                  <Label htmlFor="branch" className="font-medium font-13">
+                    Sucursal <span className="text-red-600">*</span>
+                  </Label>
+                  <div className="max-w-md relative">
+                    <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
+                    <Select
+                      {...field} // Bind Formik field
+                      id="branch"
+                      value={field.value} // Set value from Formik's field value
+                      onChange={field.onChange} // Bind Formik's onChange
+                      className={`custom-text-gray font-13 ${selectedBranch === 'select' ? 'selected-option' : 'default-option'}`}
+                      required
+                    >
+                      <option value="select" disabled>
+                        Seleccione
+                      </option>
+                      <option value="1">Sucursal 1</option>
+                      <option value="2">Sucursal 2</option>
+                      <option value="3">Sucursal 3</option>
+                      <option value="4">Sucursal 4</option>
+                    </Select>
+                    {/* Error Handling */}
+                    {meta.touched && meta.error && (
+                      <div className="text-red-600 text-sm">{meta.error}</div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </Field>
+            {/* Departamento */}
+            <Field name="department">
+              {({field,meta}: FieldProps)=>(
+                <div>  
+                  <Label htmlFor="branch" className="font-medium font-13">
+                      Departamento <span className="text-red-600">*</span>
+                  </Label>
+                  <div className="max-w-md relative">
+                    <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
+                      <Select
+                        {...field}
+                        id="departamentos"
+                        color="white"
+                        className={`custom-text-gray font-13 ${selectedDepartment === 'select' ? 'selected-option' : 'default-option'}`}
+                        value={field.value} // Set value from Formik's field value
+                        onChange={field.onChange} // Bind Formik's onChange
+                        required
+                      >
+                        <option data-skip value="select" disabled>
+                          Seleccione
+                        </option>
+                        <option value="1">Deaprtamento 1</option>
+                        <option value="2">Deaprtamento 2</option>
+                        <option value="3">Deaprtamento 3</option>
+                        <option value="4">Deaprtamento 4</option>
+                      </Select>
+                      {/* Error Handling */}
+                      {meta.touched && meta.error && (
+                        <div className="text-red-600 text-sm">{meta.error}</div>
+                      )}
+                  </div>
+                </div>
+              )}
+            </Field>
+            {/* Rol */}
+            <Field name="role">
+              {({field,meta}: FieldProps) =>(
+                <div>
+                  <Label className="font-medium font-13">
+                    Rol <span className="text-red-600">*</span>
+                  </Label>
+                  <div className="max-w-md relative">
+                    <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
+                    <Select
+                      {...field}
+                      id="role"
+                      color="white"
+                      className={`custom-text-gray font-13 ${selectedRole === 'select' ? 'selected-option' : 'default-option'}`}
+                      value={field.value} // Set value from Formik's field value
+                      onChange={field.onChange} // Bind Formik's onChange
+                      required
+                    >
+                      <option data-skip value="select" disabled>
+                        Seleccione
+                      </option>
+                      <option value="1">Rol 1</option>
+                      <option value="2">Rol 2</option>
+                      <option value="3">Rol 3</option>
+                      <option value="4">Rol 4</option>
+                    </Select>
+                    {/* Error Handling */}
+                      {meta.touched && meta.error && (
+                        <div className="text-red-600 text-sm">{meta.error}</div>
+                      )}
+                  </div>
+                </div>
 
-              <AlertInfo
-                message="Longitud de 5 a 8 caracteres. Incluye solo letras minúsculas. No
-                utilice espacios en blanco."
-              />
-            </div>
+              )}
+            </Field>
+            {/* Correo Corporativo */}
+            <Field name="corporateEmail">
+              {({field,meta}:FieldProps)=>(
+                <div>
+                  <Label className="font-medium font-13">
+                    Correo corporativo <span className="text-red-600">*</span>
+                  </Label>
+                  <div className="max-w-md">
+                    <TextInput
+                      {...field}
+                      id="corporateEmail"
+                      type="text"
+                      icon={() => <IoMdMail className="w-5 h-5 icon-color" />}
+                      placeholder="correo@servicio.com"
+                      className="text-black-custom"
+                      required
+                    />
+                    {/* Error Handling */}
+                    {meta.touched && meta.error && (
+                      <div className="text-red-600 text-sm">{meta.error}</div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </Field>
+            {/* IP */}
+            <Field name="ip">
+              {({field,meta}:FieldProps)=>(
+              <div>
+                <Label className="font-medium font-13">
+                  Ip <span className="text-red-600">*</span>
+                </Label>
+                <div className="max-w-md">
+                  <TextInput
+                    {...field}
+                    id="ip"
+                    type="text"
+                    icon={() => (
+                      <BsFillLaptopFill className="w-5 h-5 icon-color" />
+                    )}
+                    placeholder="000.00.0.0"
+                    className="text-black-custom"
+                    required
+                  />
+                  {/* Error Handling */}
+                    {meta.touched && meta.error && (
+                      <div className="text-red-600 text-sm">{meta.error}</div>
+                    )}
+                </div>
+              </div>
+              )}
+            </Field>
+            {/* Nombre de usuario */}
+            <Field name="username">
+              {({field,meta}:FieldProps)=>(
+                <div className="row-span-2">
+                  <Label className="font-medium font-13">
+                    Nombre de usuario <span className="text-red-600">*</span>
+                  </Label>
+                  <div className="max-w-md">
+                    <TextInput
+                      {...field}
+                      id="username"
+                      type="text"
+                      icon={() => <FaUser className="w-4 h-4 icon-color" />}
+                      placeholder="Ingrese un usuario"
+                      className="text-black-custom"
+                      required
+                    />
+                    {/* Error Handling */}
+                    {meta.touched && meta.error && (
+                      <div className="text-red-600 text-sm">{meta.error}</div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </Field>
             {/* Fecha de activación */}
-            <div>
-              <Label className="font-medium font-13">
-                Fecha de activación <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <div className="w-full relative chevron-input">
-                  <Datepicker
-                    className="font-13"
-                    language="es-ES"
-                    placeholder="Seleccione"
-                    value={selectedDateActivation}
-                    onChange={handleDateActivationChange} // Actualiza el estado cuando seleccionas una fecha
-                    icon={() => (
-                      <BiSolidCalendar className="w-5 h-5 icon-color" />
-                    )}
-                  />
-                  {/* <DatePickerModal/> */}
+            <Field name="activationDate">
+              {({field,meta}:FieldProps)=>(
+                <div>
+                  <Label className="font-medium font-13">
+                    Fecha de activación <span className="text-red-600">*</span>
+                  </Label>
+                  <div className="max-w-md">
+                    <div className="w-full relative chevron-input">
+                      <Datepicker
+                        {...field}
+                        className="font-13"
+                        language="es-ES"
+                        placeholder="Seleccione"
+                        value={selectedDateActivation}
+                        onChange={handleDateActivationChange} // Actualiza el estado cuando seleccionas una fecha
+                        icon={() => (
+                          <BiSolidCalendar className="w-5 h-5 icon-color" />
+                        )}
+                      />
+                      {/* Error Message */}
+                      {meta.touched && meta.error && (
+                        <div className="text-red-600 text-sm">{meta.error}</div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              )}
+            </Field>
             {/* Fecha de vencimiento */}
-            <div>
-              <Label className="font-medium font-13">
-                Fecha de vencimiento <span className="text-red-600">*</span>
-              </Label>
-              <div className="max-w-md">
-                <div className="w-full relative chevron-input">
-                  <Datepicker
-                    className="font-13"
-                    language="es-ES"
-                    placeholder="Seleccione"
-                    value={selectedDateExpiration}
-                    onChange={handleDateExpirationChange}
-                    icon={() => (
-                      <BiSolidCalendar className="w-5 h-5 icon-color" />
-                    )}
-                  />
+            <Field name="expirationDate">
+              {({field,meta}:FieldProps)=>(
+                <div>
+                  <Label className="font-medium font-13">
+                    Fecha de vencimiento <span className="text-red-600">*</span>
+                  </Label>
+                  <div className="max-w-md">
+                    <div className="w-full relative chevron-input">
+                      <Datepicker
+                        {...field}
+                        className="font-13"
+                        language="es-ES"
+                        placeholder="Seleccione"
+                        value={selectedDateExpiration}
+                        onChange={handleDateExpirationChange}
+                        icon={() => (
+                          <BiSolidCalendar className="w-5 h-5 icon-color" />
+                        )}
+                      />
+                      {/* Error Message */}
+                      {meta.touched && meta.error && (
+                        <div className="text-red-600 text-sm">{meta.error}</div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              )}
+            </Field>
             {/* Contraseña*/}
-            <div>
-              <Label className="font-medium font-13">
-                Contraseña <span className="text-red-600">*</span>
-              </Label>
-              <PasswordInput />
-              <AlertInfo message="Longitud de 8 a 16 caracteres. Incluye letras mayúsculas y minúsculas. Contiene 1 número (0-9). Contiene 1 carácter especial -!@#$%^&*. No contiene secuencias de letras o números como abc 1234 7777" />
-            </div>
+            <Field name="password">
+              {({field,meta}:FieldProps)=>(
+                <div>
+                  <Label className="font-medium font-13">
+                    Contraseña <span className="text-red-600">*</span>
+                  </Label>
+                  <PasswordInput {...field}/>
+                    {/* Error Message */}
+                    {meta.touched && meta.error && (
+                      <div className="text-red-600 text-sm">{meta.error}</div>
+                    )}
+                </div>
+              )}
+            </Field>
             {/* confirmar Contraseña */}
-            <div>
-              <Label className="font-medium font-13">
-                Confirmar contraseña <span className="text-red-600">*</span>
-              </Label>
-              <PasswordInput />
-            </div>
+            <Field name="confirmPassword">
+              {({field,meta}:FieldProps)=>(
+                <div>
+                  <Label className="font-medium font-13">
+                    Confirmar contraseña <span className="text-red-600">*</span>
+                  </Label>
+                  <PasswordInput {...field} />
+                    {/* Error Message */}
+                    {meta.touched && meta.error && (
+                      <div className="text-red-600 text-sm">{meta.error}</div>
+                    )}
+                </div>
+              )}
+            </Field>
           </div>
+          </Form>
         </Modal.Body>
         <Modal.Footer className="border-t-0 flex justify-end items-end pt-0">
           <Button
@@ -383,7 +550,10 @@ export const UserFormModal = ({
             Guardar
           </Button>
         </Modal.Footer>
+        
       </Modal>
+    )}
+      </Formik>
     </>
   );
 };
