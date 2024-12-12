@@ -17,7 +17,7 @@ import PasswordInput from "./passwordInput/PasswordInput";
 import { BiSolidCalendar } from "react-icons/bi";
 import { useState } from "react";
 import { AlertInfo } from "./alerts/AlertInfo";
-import { Formik, Field, Form, FieldProps } from "formik";
+import { Formik, Field, Form, FieldProps, FieldInputProps } from "formik";
 import { ValidationSchema } from "../app/utils/ValidationSchema";
 
 interface UserFormModalProps {
@@ -74,34 +74,38 @@ export const UserFormModal = ({
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
 
-  const handleDateExpirationChange = (date: Date | null, field) => {
+  const handleDateExpirationChange = (date: Date | null, field: FieldInputProps<Date | null>) => {
     setSelectedDateExpiration(date);
     console.log("Fecha expiracion:", date);
     field.onChange({ target: { name: field.name, value: date } });
   };
-  const handleDateActivationChange = (date: Date | null, field) => {
+  const handleDateActivationChange = (date: Date | null, field: FieldInputProps<Date | null>) => {
     setSelectedDateActivation(date);
     console.log("Fecha activacion:", date);
     field.onChange({ target: { name: field.name, value: date } });
   };
-  const handleChangeBranch = ( event: React.ChangeEvent<HTMLSelectElement>, field) => {
+  const handleChangeBranch = ( event: React.ChangeEvent<HTMLSelectElement>, field: FieldInputProps<string>) => {
     setSelectedBranch(event.target.value);
     field.onChange(event);
     console.log(event.target.value);
   };
-  const handleChangeDepartment = ( event: React.ChangeEvent<HTMLSelectElement>, field
+  const handleChangeDepartment = ( event: React.ChangeEvent<HTMLSelectElement>, field: FieldInputProps<string>
   ) => {
     setSelectedDepartment(event.target.value);
     field.onChange(event);
 
     console.log(event.target.value);
   };
-  const handleChangeRole = ( event: React.ChangeEvent<HTMLSelectElement>, field) => {
+  const handleChangeRole = ( event: React.ChangeEvent<HTMLSelectElement>, field: FieldInputProps<string>) => {
     setSelectedRole(event.target.value);
     field.onChange(event);
 
     console.log(event.target.value);
   };
+  const handleOnSubmit =(values) => {
+    console.log('hi')
+    console.log(values)
+  }
   return (
     <>
       <Formik
@@ -124,10 +128,7 @@ export const UserFormModal = ({
         confirmPassword: '',
       }}
       validationSchema={ValidationSchema}
-      onSubmit={(values) => {
-        console.log('Formulario enviado', values);
-        // Aquí puedes manejar el envío del formulario
-      }}
+      onSubmit={handleOnSubmit}
     >{() => (
       <Modal size={"5xl"} show={openModal} onClose={handleClose}>
         <Modal.Header className="items-center border-b-0 pb-2 pt-3">
@@ -153,7 +154,7 @@ export const UserFormModal = ({
           <Form>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Tipo de identificación */}
-            <Field name="identificationType">
+            <Field name="idType">
               {({ field, meta }: FieldProps) => (
                 <div>
                   <Label className="font-medium font-13">
@@ -164,7 +165,7 @@ export const UserFormModal = ({
                       <Radio
                         {...field} // Para manejar el campo de Formik
                         id="cedula"
-                        name="identificationType"
+                        name="idType"
                         value="cedula" // El valor de este radio button será "cedula"
                         checked={field.value === "cedula"} // Compara el valor actual con el valor del radio
                         
@@ -178,7 +179,7 @@ export const UserFormModal = ({
                       <Radio
                         {...field}
                         id="passport"
-                        name="identificationType"
+                        name="idType"
                         value="passport"
                         checked={field.value === "passport"} // Compara el valor actual con el valor del radio
                         
@@ -198,16 +199,16 @@ export const UserFormModal = ({
               )}
             </Field>
             {/* Identificación */}
-            <Field name="identification">
+            <Field name="idNumber">
               {({ field, meta }: FieldProps) => (
                 <div>
-                  <Label htmlFor="identification" className="font-medium font-13">
+                  <Label htmlFor="idNumber" className="font-medium font-13">
                     Identificación <span className="text-red-600">*</span>
                   </Label>
                   <div className="max-w-md">
                     <TextInput
                       {...field}
-                      id="identification"
+                      id="idNumber"
                       color="white"
                       type="text"
                       icon={() => <FaIdCard className="w-5 h-5 icon-color" />}
@@ -274,15 +275,15 @@ export const UserFormModal = ({
               )}
             </Field>
             {/* Apellido paterno */}
-            <Field name="lastName">
+            <Field name="lastNameFather">
               {({ field, meta }: FieldProps) => (
                 <div>
-                  <Label htmlFor="lastName" className="font-medium font-13">
+                  <Label htmlFor="lastNameFather" className="font-medium font-13">
                     Apellido paterno <span className="text-red-600">*</span>
                   </Label>
                   <TextInput
                   {...field}
-                  id="lastName"
+                  id="lastNameFather"
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido paterno"
@@ -297,15 +298,15 @@ export const UserFormModal = ({
               )}
             </Field>
             {/* Apellido materno */}
-            <Field name="motherLastName">
+            <Field name="lastNameMother">
               {({ field, meta }: FieldProps) => (
                 <div>
-                  <Label htmlFor="motherLastName" className="font-medium font-13">
+                  <Label htmlFor="lastNameMother" className="font-medium font-13">
                     Apellido materno <span className="text-red-600">*</span>
                   </Label>
                   <TextInput
                   {...field}
-                  id="motherLastName"
+                  id="lastNameMother"
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido materno"
@@ -449,7 +450,7 @@ export const UserFormModal = ({
               )}
             </Field>
             {/* IP */}
-            <Field name="ip">
+            <Field name="ipAddress">
               {({field,meta}:FieldProps)=>(
               <div>
                 <Label className="font-medium font-13">
@@ -458,7 +459,7 @@ export const UserFormModal = ({
                 <div className="max-w-md">
                   <TextInput
                     {...field}
-                    id="ip"
+                    id="ipAddress"
                     type="text"
                     icon={() => (
                       <BsFillLaptopFill className="w-5 h-5 icon-color" />
@@ -603,16 +604,23 @@ export const UserFormModal = ({
               )}
             </Field>
           </div>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer className="border-t-0 flex justify-end items-end pt-0">
           <Button
             color="white"
             className="bg-orange-custom px-11"
-            onClick={handleClose}
+            type="submit"
           >
             Guardar
           </Button>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer className="border-t-0 flex justify-end items-end pt-0">
+          {/* <Button
+            color="white"
+            className="bg-orange-custom px-11"
+            type="submit"
+          >
+            Guardar
+          </Button> */}
         </Modal.Footer>
         
       </Modal>

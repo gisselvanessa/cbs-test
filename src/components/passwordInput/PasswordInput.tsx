@@ -3,11 +3,12 @@ import { TextInput, Button, Popover } from 'flowbite-react';
 import { MdRemoveRedEye } from 'react-icons/md';
 import { IoIosLock, IoMdEyeOff } from 'react-icons/io';
 import "./styles.css";
+import { FieldInputProps } from 'formik';
 interface PasswordInputProps extends React.ComponentProps<typeof TextInput> {
   name?: string;
 }
 
-const PasswordInput = (field, props: PasswordInputProps) => {
+const PasswordInput = (field: FieldInputProps<string>, props: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState({
     hasUppercase: false,
@@ -225,8 +226,8 @@ const PasswordInput = (field, props: PasswordInputProps) => {
       >
         <div className="relative max-w-md">
           <TextInput
-           {...props}
-            id="password1"
+            {...props}
+            id={field.name}
             type={showPassword ? "text" : "password"}
             placeholder="Ingrese su contraseña"
             required

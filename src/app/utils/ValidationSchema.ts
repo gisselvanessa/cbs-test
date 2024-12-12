@@ -2,11 +2,11 @@ import * as Yup from 'yup';
 
 export const ValidationSchema = Yup.object({
     // Tipo de identificación
-    identificationType: Yup.string().oneOf(["cedula", "passport"], "Debe seleccionar un tipo de identificación")
+    idType: Yup.string().oneOf(["cedula", "passport"], "Debe seleccionar un tipo de identificación")
         .required("Tipo de identificación es requerido"),
 
     // Identificación
-    identification: Yup.string()
+    idNumber: Yup.string()
         .matches(/^\d+$/, 'La identificación no es válida')
         .min(10, 'La identificación debe tener al menos 10 dígitos')
         .required('Identificación es requerida'),
@@ -20,11 +20,11 @@ export const ValidationSchema = Yup.object({
         .required('El segundo nombre es requerido'),
 
     // Apellido paterno
-    lastName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El primer apellido no es válido')
+    lastNameFather: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El primer apellido no es válido')
         .required('El apellido paterno es requerido'),
 
     // Apellido materno
-    motherLastName: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El segundo apellido no es válido')
+    lastNameMother: Yup.string().matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ]+$/, 'El segundo apellido no es válido')
         .required('El apellido materno es requerido'),
 
     // Sucursal
@@ -42,7 +42,7 @@ export const ValidationSchema = Yup.object({
         .required('Correo corporativo es requerido'),
 
     // IP
-    ip: Yup.string()
+    ipAddress: Yup.string()
         .matches(
             /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
             'IP no válida'
