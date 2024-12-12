@@ -230,7 +230,6 @@ const PasswordInput = (field: FieldInputProps<string>, props: PasswordInputProps
             id={field.name}
             type={showPassword ? "text" : "password"}
             placeholder="Ingrese su contraseña"
-            required
             icon={() => <IoIosLock className="w-5 h-5 icon-color" />}
             onChange={handlePasswordChange}
           />

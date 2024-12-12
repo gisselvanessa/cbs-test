@@ -213,7 +213,6 @@ export const UserFormModal = ({
                       type="text"
                       icon={() => <FaIdCard className="w-5 h-5 icon-color" />}
                       placeholder="100000000"
-                      required
                       className="text-black-custom"
                       onInput={(e) => {
                         const input = e.target as HTMLInputElement;
@@ -241,7 +240,7 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese primer nombre"
-                  required
+                  
                   className="text-black-custom"
                   />
                   {/* Mostrar el error si lo hay */}
@@ -264,7 +263,7 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese segundo nombre"
-                  required
+                  
                   className="text-black-custom"
                   />
                   {/* Mostrar el error si lo hay */}
@@ -287,7 +286,7 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido paterno"
-                  required
+                  
                   className="text-black-custom"
                   />
                   {/* Mostrar el error si lo hay */}
@@ -310,7 +309,7 @@ export const UserFormModal = ({
                   type="text"
                   icon={() => <FaUser className="w-4 h-4 icon-color" />}
                   placeholder="Ingrese apellido materno"
-                  required
+                  
                   className="text-black-custom"
                   />
                   {/* Mostrar el error si lo hay */}
@@ -335,7 +334,7 @@ export const UserFormModal = ({
                       value={field.value} // Set value from Formik's field value
                       onChange={(event)=>handleChangeBranch(event, field)} // Bind Formik's onChange
                       className={`custom-text-gray font-13 ${selectedBranch === '' ? 'selected-option' : 'default-option'}`}
-                      required
+                      
                       color="white"
 
                     >
@@ -371,7 +370,7 @@ export const UserFormModal = ({
                         className={`custom-text-gray font-13 ${selectedDepartment === '' ? 'selected-option' : 'default-option'}`}
                         value={field.value} // Set value from Formik's field value
                         onChange={(event)=>handleChangeDepartment(event, field)} // Bind Formik's onChange
-                        required
+                        
                       >
                         <option data-skip value="" disabled>
                           Seleccione
@@ -405,7 +404,7 @@ export const UserFormModal = ({
                       className={`custom-text-gray font-13 ${selectedRole === '' ? 'selected-option' : 'default-option'}`}
                       value={field.value} // Set value from Formik's field value
                       onChange={(event)=>handleChangeRole(event, field)} // Bind Formik's onChange
-                      required
+                      
                     >
                       <option data-skip value="" disabled>
                         Seleccione
@@ -439,7 +438,7 @@ export const UserFormModal = ({
                       icon={() => <IoMdMail className="w-5 h-5 icon-color" />}
                       placeholder="correo@servicio.com"
                       className="text-black-custom"
-                      required
+                      
                     />
                     {/* Error Handling */}
                     {meta.touched && meta.error && (
@@ -466,7 +465,7 @@ export const UserFormModal = ({
                     )}
                     placeholder="000.00.0.0"
                     className="text-black-custom"
-                    required
+                    
                   />
                   {/* Error Handling */}
                     {meta.touched && meta.error && (
@@ -491,7 +490,7 @@ export const UserFormModal = ({
                       icon={() => <FaUser className="w-4 h-4 icon-color" />}
                       placeholder="Ingrese un usuario"
                       className="text-black-custom"
-                      required
+                      
                     />
                     {/* Error Handling */}
                     {meta.touched && meta.error && (
