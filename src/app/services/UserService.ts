@@ -1,14 +1,15 @@
-import axios from "axios";
 import { User } from "../models/User";
+import api from "./api";
 
-const apiUrl = "http://localhost:8084/api/user-service/users";
+// const apiUrl = "http://192.168.0.29:8084/api/users-service/users"; 
+const url = "/api/users-service/users"; 
 
-export const fetchUsers = async (): Promise<User[]> => {
-    const response = await axios.get(apiUrl);
-    return response.data;
-};
+// export const fetchUsers = async (): Promise<User[]> => {
+//     const response = await api.get(url);
+//     return response.data;
+// };
 
-export const createUser = async (user: User): Promise<User> => {
-    const response = await axios.post(apiUrl, user);
+export const createUser = async (userData: User): Promise<User> => {
+    const response = await api.post<User>(url, userData);
     return response.data;
 };

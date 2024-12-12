@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import {  Poppins} from 'next/font/google'
 import "./globals.css";
 import { Navbar } from "@/components";
-import { ThemeModeScript } from "flowbite-react";
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -22,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <ThemeModeScript />
+        {/* <ThemeModeScript /> */}
       </head>
       <body
         className={`${poppins.className} antialiased`}
