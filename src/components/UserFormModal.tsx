@@ -129,8 +129,8 @@ export const UserFormModal = ({
       }}
       validationSchema={ValidationSchema}
       onSubmit={handleOnSubmit}
-    >{() => (
-      <Modal size={"5xl"} show={openModal} onClose={handleClose}>
+    >{({resetForm}) => (
+      <Modal size={"5xl"} show={openModal} onClose={()=>{handleClose(); resetForm()}}>
         <Modal.Header className="items-center border-b-0 pb-2 pt-3">
           <div className="flex">
             <Image
@@ -604,6 +604,8 @@ export const UserFormModal = ({
               )}
             </Field>
           </div>
+          <div className="flex justify-end">
+
           <Button
             color="white"
             className="bg-orange-custom px-11"
@@ -611,6 +613,7 @@ export const UserFormModal = ({
           >
             Guardar
           </Button>
+          </div>
           </Form>
         </Modal.Body>
         <Modal.Footer className="border-t-0 flex justify-end items-end pt-0">
