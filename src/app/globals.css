@@ -10,7 +10,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #ffffff;
   }
 }
 
@@ -114,10 +114,13 @@ select:not([size]){
 .bg-orange-custom:hover {
   filter: brightness(0.96);
 }
-/* .custom-text-gray{
+.text-gray-light-custom{
   color: #40404080;
 
-} */
+}
+.text-gray-custom{
+  color: #404040;
+}
 .font-13{
   font-size: 13px;
 }

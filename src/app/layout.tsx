@@ -27,7 +27,7 @@ export default function RootLayout({
         className={`${poppins.className} antialiased`}
       >
         <Navbar/>
-        <h2 className="text-black">Bienvenido a cbs</h2>
+        {/* <h2 className="text-black">Bienvenido a cbs</h2> */}
         {children}
       </body>
     </html>
