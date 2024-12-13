@@ -1,5 +1,5 @@
 import Image from "next/image";
-import "./styles.css";
+import "../../app/styles/navbar.css";
 
 export const Navbar = () => {
   return (

@@ -13,15 +13,14 @@ import { BsFillLaptopFill } from "react-icons/bs";
 import { FaIdCard, FaUser } from "react-icons/fa";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { IoMdMail } from "react-icons/io";
-import PasswordInput from "./passwordInput/PasswordInput";
+import PasswordInput from "../passwordInput/PasswordInput";
 import { BiSolidCalendar } from "react-icons/bi";
 import { useState } from "react";
-import { AlertInfo } from "./alerts/AlertInfo";
+import { AlertInfo } from "../alerts/AlertInfo";
 import { Formik, Field, Form, FieldProps, FieldInputProps } from "formik";
-import { ValidationSchema } from "../app/utils/ValidationSchema";
+import { ValidationSchema } from "../../app/utils/ValidationSchema";
 // import { User } from "@/app/models/User";
 import { createUser } from "@/app/services/UserService";
-
 interface UserFormModalProps {
   openModal: boolean;
   handleClose: () => void;

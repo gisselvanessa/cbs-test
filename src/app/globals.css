@@ -121,6 +121,9 @@ select:not([size]){
 .text-gray-custom{
   color: #404040;
 }
+.text-gray-dark-custom{
+  color: #646363
+}
 .font-13{
   font-size: 13px;
 }
@@ -157,4 +160,13 @@ input::placeholder {
 select option:hover {
   background-color: #17274e;
   
+}
+.search-input input{
+  border: none;
+  background-color: #4040401A;
+  border-radius: 20px;
+  padding-left: 50px;
+  height: 50px;
+  width: 604px;
+
 }
