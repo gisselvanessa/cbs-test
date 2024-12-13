@@ -126,8 +126,8 @@ export const UserFormModal = ({
       console.log(values);
       const userData = {
         personId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        officeId: selectedBranch,
-        roleId: selectedRole,
+        officeId: Number(selectedBranch),
+        roleId: Number(selectedRole),
         ipAddress: values.ipAddress,
         userName: values.username,
       };
