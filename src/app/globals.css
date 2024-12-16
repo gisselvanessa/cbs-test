@@ -170,3 +170,6 @@ select option:hover {
   width: 604px;
 
 }
+.h-screen-custom{
+  height: calc(100vh - 53px);
+}
