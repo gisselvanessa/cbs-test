@@ -1,12 +1,12 @@
-import { Modal, Select, TextInput } from "flowbite-react";
+import { Button, Modal, Select, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import "../../app/styles/userFormLogin.css";
 import Image from "next/image";
 import { FaUser } from "react-icons/fa";
-import { Field, FieldInputProps, FieldProps, Formik } from "formik";
+import { Field, FieldInputProps, FieldProps, Form, Formik } from "formik";
 import { ValidationSchemaLogin } from "../../app/utils/ValidationSchemaLogin";
-import { HiBuildingOffice2 } from "react-icons/hi2";
 import PasswordInput from "../passwordInput/PasswordInput";
+import { FaBuildingUser } from "react-icons/fa6";
 
 interface LoginModalProps {
   openModal: boolean;
@@ -17,8 +17,8 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
 
   const handleOnSubmit = async (values) => {
     try {
-      console.log("hi");
-      console.log(values);
+        console.log("hi");
+        console.log(values);
     } catch (error) {
       console.error("Error al crear usuario:", error);
     }
@@ -38,13 +38,13 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
       <Formik
         initialValues={{
           username: "",
-          roleid: "",
+          role: "",
           password: "",
         }}
         validationSchema={ValidationSchemaLogin}
         onSubmit={handleOnSubmit}
       >
-        {({ resetForm }) => (
+        {({ resetForm, isValid, dirty }) => (
           <Modal
             show={openModal}
             onClose={() => {
@@ -57,21 +57,22 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
           >
             <Modal.Header className="border-b-0 pb-2 pt-3"></Modal.Header>
             <Modal.Body className="pt-0">
-              <div className="grid grid-cols-2 gap-4">
+                <Form>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="logo-container text-black">
                   <Image
                     width={323}
                     height={137}
                     alt="icon-nav"
-                    className="m-auto"
+                    className=""
                     src="assets/logos/ptio-logo.svg"
                   />
                 </div>
-                <div className="form-container px-10 text-black">
+                <div className="form-container px-10 pb-12 pt-2 text-black">
                   <h2 className="text-xl font-semibold">Iniciar sesión</h2>
                   <Field name="username">
                     {({ field, meta }: FieldProps) => (
-                      <div>
+                      <div className="py-3">
                         <TextInput
                           {...field}
                           id="username"
@@ -94,13 +95,13 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                     {({ field, meta }: FieldProps) => (
                       <div>
                         
-                        <div className="max-w-md relative">
-                          <HiBuildingOffice2 className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
+                        <div className="relative">
+                          <FaBuildingUser  className="w-5 h-5 icon-color absolute z-10 select-icon-position" />
                           <Select
                             {...field}
                             id="role"
                             color="white"
-                            className={`custom-text-gray login-input font-13 ${
+                            className={` py-3custom-text-gray login-input font-13 ${
                               selectedRole === ""
                                 ? "selected-option"
                                 : "default-option"
@@ -129,9 +130,9 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                   {/* Contraseña*/}
                   <Field name="password">
                     {({ field, meta }: FieldProps) => (
-                      <div>
+                      <div className="pt-3 pb-2">
                        
-                        <PasswordInput {...field} />
+                        <PasswordInput {...field} type={'login'} />
 
                         {/* Error Message */}
                         {meta.touched && meta.error && (
@@ -142,8 +143,21 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                       </div>
                     )}
                   </Field>
+                  <div className="flex justify-end pb-3">
+                    <span className="font-13 cursor-pointer">
+                    ¿Olvidé mi contraseña?
+                    </span>
+                  </div>
+                  <Button
+                    color="white"
+                    type="submit"
+                    disabled={!dirty || !isValid}
+                    className="bg-orange-custom w-full text-sm text-white font-normal">
+                    Iniciar Sesión
+                  </Button>
                 </div>
               </div>
+              </Form>
             </Modal.Body>
           </Modal>
         )}

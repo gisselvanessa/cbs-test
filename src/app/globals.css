@@ -102,7 +102,7 @@ select:not([size]){
 }
 
 .select-icon-position {
-  top: 30%;
+  top: 12px;
   left: 0.75rem;
 }
 .text-orange{
@@ -112,7 +112,7 @@ select:not([size]){
   background-color: #EF7D00; 
 }
 .bg-orange-custom:hover {
-  filter: brightness(0.96);
+  background-color: #f18919; 
 }
 .text-gray-light-custom{
   color: #40404080;
@@ -172,4 +172,10 @@ select option:hover {
 }
 .h-screen-custom{
   height: calc(100vh - 53px);
+}
+
+button:disabled {
+  cursor: default; 
+  opacity: 0.5; 
+  pointer-events: none; 
 }

@@ -96,7 +96,7 @@ export const UserFormModal = ({
     field: FieldInputProps<string>
   ) => {
     setSelectedBranch(event.target.value);
-    field.onChange(event.target.value);
+    field.onChange(event);
   };
   const handleChangeDepartment = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -162,7 +162,7 @@ export const UserFormModal = ({
         validationSchema={ValidationSchema}
         onSubmit={handleOnSubmit}
       >
-        {({ resetForm }) => (
+        {({ resetForm, isValid, dirty }) => (
           <Modal
             size={"5xl"}
             show={openModal}
@@ -723,6 +723,7 @@ export const UserFormModal = ({
                     color="white"
                     className="bg-orange-custom px-11"
                     type="submit"
+                    disabled={!dirty || !isValid}
                   >
                     Guardar
                   </Button>

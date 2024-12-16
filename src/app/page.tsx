@@ -18,6 +18,32 @@ export default function Home() {
   const handleCloseModalLogin = () => {
     setOpenModalLogin(false);
   };
+  const items = [
+    {
+      id: 1,
+      src: "assets/icons/home/seguridad.svg",
+      text: "Seguridad",
+      onClick: () => setOpenModalLogin(true),
+    },
+    {
+      id: 2,
+      src: "assets/icons/home/talento-humano.svg",
+      text: "Talento humano",
+      onClick: () => setOpenModalLogin(true),
+    },
+    { id: 3, src: "assets/icons/home/personas.svg", text: "Personas",
+      onClick: () => setOpenModalLogin(true),
+     },
+    { id: 4, src: "assets/icons/home/cajas.svg", text: "Cajas",
+      onClick: () => setOpenModalLogin(true),
+     },
+    { id: 5, src: "assets/icons/home/ahorros.svg", text: "Ahorros",
+      onClick: () => setOpenModalLogin(true),
+     },
+    { id: 6, src: "assets/icons/home/plazo-fijo.svg", text: "Plazo fijo",
+      onClick: () => setOpenModalLogin(true),
+     },
+  ];
 
   return (
     <>
@@ -50,83 +76,35 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="flex flex-wrap gap-16 mt-5">
-          <div className="">
-            <Image
-              width={70}
-              height={70}
-              alt="icon-nav"
-              className="m-auto"
-              src="assets/icons/home/seguridad.svg"
-            />
-            <p className="text-center text-sm font-medium text-gray-custom mt-1">
-              Seguridad
-            </p>
-          </div>
-          <div className="">
-            <Image
-              width={70}
-              height={70}
-              alt="icon-nav"
-              className="m-auto"
-              src="assets/icons/home/talento-humano.svg"
-            />
-            <p className="text-center text-sm font-medium text-gray-custom mt-1">
-              Talento humano
-            </p>
-          </div>
-          <div className="">
-            <Image
-              width={70}
-              height={70}
-              alt="icon-nav"
-              className="m-auto"
-              src="assets/icons/home/personas.svg"
-            />
-            <p className="text-center text-sm font-medium text-gray-custom mt-1">
-              Personas
-            </p>
-          </div>
-          <div className="">
-            <Image
-              width={70}
-              height={70}
-              alt="icon-nav"
-              className="m-auto"
-              src="assets/icons/home/cajas.svg"
-            />
-            <p className="text-center text-sm font-medium text-gray-custom mt-1">
-              Cajas
-            </p>
-          </div>
-          <div className="">
-            <Image
-              width={70}
-              height={70}
-              alt="icon-nav"
-              className="m-auto"
-              src="assets/icons/home/ahorros.svg"
-            />
-            <p className="text-center text-sm font-medium text-gray-custom mt-1">
-              Ahorros
-            </p>
-          </div>
-          <div className="">
-            <Image
-              width={70}
-              height={70}
-              alt="icon-nav"
-              className="m-auto"
-              src="assets/icons/home/plazo-fijo.svg"
-            />
-            <p className="text-center text-sm font-medium text-gray-custom mt-1">
-              Plazo fijo
-            </p>
-          </div>
+        <div className="flex flex-wrap gap-8 md:gap-16 mt-5">
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className="cursor-pointer"
+              onClick={item.onClick || undefined} // Asegúrate de manejar onClick opcionalmente
+            >
+              <Image
+                width={70}
+                height={70}
+                alt={`icon-${item.text.toLowerCase()}`}
+                className="m-auto"
+                src={item.src}
+              />
+              <p className="text-center text-sm font-medium text-gray-custom mt-1">
+                {item.text}
+              </p>
+            </div>
+          ))}
         </div>
-        <UserFormLogin openModal={openModalLogin} handleClose={handleCloseModalLogin} />
+
+        <UserFormLogin
+          openModal={openModalLogin}
+          handleClose={handleCloseModalLogin}
+        />
         <UserFormModal openModal={openModal} handleClose={handleCloseModal} />
-        <Button className="hidden" onClick={() => setOpenModal(true)}>Registrar usuario098</Button>
+        <Button className="hidden" onClick={() => setOpenModal(true)}>
+          Registrar usuario098
+        </Button>
       </div>
     </>
   );
