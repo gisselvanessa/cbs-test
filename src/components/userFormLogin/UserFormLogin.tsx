@@ -7,6 +7,8 @@ import { Field, FieldInputProps, FieldProps, Form, Formik } from "formik";
 import { ValidationSchemaLogin } from "../../app/utils/ValidationSchemaLogin";
 import PasswordInput from "../passwordInput/PasswordInput";
 import { FaBuildingUser } from "react-icons/fa6";
+import { isUsername } from "@/app/services/AuthService";
+import { User } from "@/app/models/User";
 
 interface LoginModalProps {
   openModal: boolean;
@@ -14,7 +16,8 @@ interface LoginModalProps {
 }
 const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   const [selectedRole, setSelectedRole] = useState("");
-
+  const [userData, setUserData] = useState<User | null>(null); 
+  const [error, setError] = useState(""); 
   const handleOnSubmit = async (values:any, {setErrors}: any) => {
     try {
       console.log("hi");
@@ -33,6 +36,17 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   };
   const handleResetValues = () => {
     setSelectedRole("");
+  };
+  const verifyUser = async (username: string) => {
+    try {
+      const response = await isUsername(username)
+      setUserData(response.data);
+      setError(""); 
+    } catch (err) {
+      console.log(err)
+      setError("Usuario no encontrado"); 
+      setUserData(null);
+    }
   };
   return (
     <>
@@ -90,6 +104,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                             )}
                             placeholder="Usuario"
                             className="login-input text-black-custom"
+                            onBlur={() => verifyUser(field.value)}
                           />
                           {/* Mostrar el error si lo hay */}
                           {meta.touched && meta.error && (
