@@ -59,7 +59,7 @@ const PasswordInput = ({ ...props }: PasswordInputProps) => {
           <Button
             type="button"
             color="white"
-            className="absolute px-0 inset-y-0 right-0 flex items-center bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent"
+            className="absolute inset-y-0 -right-1.5 flex items-center bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent"
             onClick={togglePasswordVisibility}
           >
             {showPassword ? (
@@ -279,7 +279,7 @@ const PasswordInput = ({ ...props }: PasswordInputProps) => {
             <Button
               type="button"
               color="white"
-              className="absolute inset-y-0 right-0 flex items-center bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent"
+              className="absolute inset-y-0 -right-1.5 flex items-center bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent"
               onClick={togglePasswordVisibility}
             >
               {showPassword ? (
