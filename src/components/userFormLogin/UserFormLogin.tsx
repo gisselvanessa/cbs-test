@@ -21,6 +21,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   const [userData, setUserData] = useState<User | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [rolesList, setRolesList] = useState<any[] | null>(null);
 
   const handleOnSubmit = async (values: any, { setErrors }: any) => {
     try {
@@ -132,7 +133,11 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                               form.setFieldTouched("username", true);
                             }}
                           />
-                          <div className={` ${loading ? 'loader':''} absolute top-[35px] right-3 transform -translate-y-1/2`}></div>
+                          <div
+                            className={` ${
+                              loading ? "loader" : ""
+                            } absolute top-[35px] right-3 transform -translate-y-1/2`}
+                          ></div>
                           {/* Mostrar el error si lo hay */}
                           {meta.touched && meta.error && (
                             <div className="text-red-600 text-xs">
@@ -169,10 +174,11 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                               <option data-skip value="" disabled>
                                 Seleccione
                               </option>
-                              <option value="1">Rol 1</option>
-                              <option value="2">Rol 2</option>
-                              <option value="3">Rol 3</option>
-                              <option value="4">Rol 4</option>
+                              {rolesList?.map((role) => (
+                                <option key={role.id} value={role.id}>
+                                  {role.name}
+                                </option>
+                              ))}
                             </Select>
                             {/* Error Handling */}
                             {meta.touched && meta.error && (
