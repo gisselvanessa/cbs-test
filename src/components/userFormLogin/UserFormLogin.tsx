@@ -14,6 +14,7 @@ interface LoginModalProps {
   openModal: boolean;
   handleClose: () => void;
 }
+
 const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   const [selectedRole, setSelectedRole] = useState("");
   const [userData, setUserData] = useState<User | null>(null); 
@@ -37,11 +38,26 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   const handleResetValues = () => {
     setSelectedRole("");
   };
+
   const verifyUser = async (username: string) => {
+
+    console.log(username);
+    
     try {
       const response = await isUsername(username)
-      setUserData(response.data);
+      console.log( response);
+      
+      if(response != null){
+      setUserData(response);
       setError(""); 
+      }else{
+        console.log("Usuario no encontrado");
+        
+        setError("Usuario no encontrado"); 
+        setUserData(null);
+        setUserData(null)
+      }
+      
     } catch (err) {
       console.log(err)
       setError("Usuario no encontrado"); 
@@ -112,6 +128,12 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                               {meta.error}
                             </div>
                           )}
+                          {/* Mostrar el error de la API si el usuario no existe */}
+                        {error && !meta.error && (
+                          <div className="text-red-600 text-xs">
+                            {error}
+                          </div>
+                        )}
                         </div>
                       )}
                     </Field>
