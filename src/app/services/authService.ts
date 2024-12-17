@@ -1,4 +1,3 @@
-import { AuthApiResponse } from "../models/Auth";
 import { User } from "../models/User";
 import api from "./api";
 

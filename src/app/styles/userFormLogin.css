@@ -9,7 +9,7 @@
     border: none;
     border: 0.5px solid #EF7D00;
     padding-left: 4rem;
-
+    padding-right: 4rem;
 }
 .login-input select:not([size]){
     /* background-image: url("data:image/svg+xml,%3csvg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'%3e %3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 1 4 4 4-4'/%3e %3c/svg%3e"); */
@@ -26,3 +26,13 @@
     padding-left: 4rem;
 
   }
+
+  /* HTML: <div class="loader"></div> */
+.loader {
+  width: 40px;
+  aspect-ratio: 4;
+  background: radial-gradient(circle closest-side,#f1912bb0 90%,#0000) 0/calc(100%/3) 100% space;
+  clip-path: inset(0 100% 0 0);
+  animation: l1 1s steps(4) infinite;
+}
+@keyframes l1 {to{clip-path: inset(0 -34% 0 0)}}

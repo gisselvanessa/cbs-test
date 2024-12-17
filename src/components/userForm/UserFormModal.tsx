@@ -162,7 +162,7 @@ export const UserFormModal = ({
         validationSchema={ValidationSchema}
         onSubmit={handleOnSubmit}
       >
-        {({ resetForm, isValid, dirty }) => (
+        {({ resetForm, isValid, dirty,setTouched, setErrors  }) => (
           <Modal
             size={"5xl"}
             show={openModal}
@@ -170,6 +170,8 @@ export const UserFormModal = ({
               handleClose();
               resetForm();
               handleResetValues();
+              setTouched({});
+              setErrors({}); 
             }}
           >
             <Modal.Header className="items-center border-b-0 pb-2 pt-3">

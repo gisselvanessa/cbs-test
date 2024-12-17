@@ -7,8 +7,9 @@ import { Field, FieldInputProps, FieldProps, Form, Formik } from "formik";
 import { ValidationSchemaLogin } from "../../app/utils/ValidationSchemaLogin";
 import PasswordInput from "../passwordInput/PasswordInput";
 import { FaBuildingUser } from "react-icons/fa6";
-import { isUsername } from "@/app/services/AuthService";
 import { User } from "@/app/models/User";
+import { isUsername } from "@/app/services/authService";
+import { toast } from "react-toastify";
 
 interface LoginModalProps {
   openModal: boolean;
@@ -17,13 +18,15 @@ interface LoginModalProps {
 
 const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   const [selectedRole, setSelectedRole] = useState("");
-  const [userData, setUserData] = useState<User | null>(null); 
-  const [error, setError] = useState(""); 
-  const handleOnSubmit = async (values:any, {setErrors}: any) => {
+  const [userData, setUserData] = useState<User | null>(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleOnSubmit = async (values: any, { setErrors }: any) => {
     try {
       console.log("hi");
       console.log(values);
-      setErrors({ username: 'La username es incorrecta' });
+      setErrors({ username: "La username es incorrecta" });
     } catch (error) {
       console.error("Error al crear usuario:", error);
     }
@@ -40,29 +43,30 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   };
 
   const verifyUser = async (username: string) => {
-
-    console.log(username);
-    
-    try {
-      const response = await isUsername(username)
-      console.log( response);
-      
-      if(response != null){
-      setUserData(response);
-      setError(""); 
-      }else{
-        console.log("Usuario no encontrado");
-        
-        setError("Usuario no encontrado"); 
-        setUserData(null);
-        setUserData(null)
-      }
-      
-    } catch (err) {
-      console.log(err)
-      setError("Usuario no encontrado"); 
-      setUserData(null);
+    if (!username.trim()) {
+      return;
     }
+    setLoading(true);
+    try {
+      const response = await isUsername(username);
+      if (response) {
+        setUserData(response);
+        setError("");
+      } else {
+        handleUserNotFound();
+      }
+    } catch (err) {
+      console.error("Error verificando usuario:", err);
+      handleUserNotFound();
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleUserNotFound = () => {
+    const errorMessage = "Usuario no encontrado";
+    setError(errorMessage);
+    toast.error(errorMessage);
+    setUserData(null);
   };
   return (
     <>
@@ -75,13 +79,16 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
         validationSchema={ValidationSchemaLogin}
         onSubmit={handleOnSubmit}
       >
-        {({ resetForm, isValid, dirty }) => (
+        {({ resetForm, isValid, dirty, setTouched, setErrors }) => (
           <Modal
             show={openModal}
             onClose={() => {
-              handleClose();
               resetForm();
               handleResetValues();
+              setTouched({});
+              setErrors({});
+              setError("");
+              handleClose();
             }}
             size={"5xl"}
             theme={{
@@ -109,8 +116,8 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                     <h2 className="text-xl font-semibold">Iniciar sesión</h2>
                     {/* Username */}
                     <Field name="username">
-                      {({ field, meta }: FieldProps) => (
-                        <div className="py-3">
+                      {({ field, meta, form }: FieldProps) => (
+                        <div className="py-3 relative">
                           <TextInput
                             {...field}
                             id="username"
@@ -120,8 +127,12 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                             )}
                             placeholder="Usuario"
                             className="login-input text-black-custom"
-                            onBlur={() => verifyUser(field.value)}
+                            onBlur={() => {
+                              verifyUser(field.value);
+                              form.setFieldTouched("username", true);
+                            }}
                           />
+                          <div className={` ${loading ? 'loader':''} absolute top-[35px] right-3 transform -translate-y-1/2`}></div>
                           {/* Mostrar el error si lo hay */}
                           {meta.touched && meta.error && (
                             <div className="text-red-600 text-xs">
@@ -129,11 +140,9 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                             </div>
                           )}
                           {/* Mostrar el error de la API si el usuario no existe */}
-                        {error && !meta.error && (
-                          <div className="text-red-600 text-xs">
-                            {error}
-                          </div>
-                        )}
+                          {error && !meta.error && (
+                            <div className="text-red-600 text-xs">{error}</div>
+                          )}
                         </div>
                       )}
                     </Field>
