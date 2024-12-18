@@ -1,5 +1,5 @@
 import { User } from "../models/User";
-import api from "./api";
+import api from "../api/api";
 
 // const apiUrl = "http://192.168.0.29:8084/api/users-service/users"; 
 const url = "/api/user-service/user";

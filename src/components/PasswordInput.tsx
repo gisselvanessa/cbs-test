@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextInput, Button, Popover } from "flowbite-react";
 import { MdRemoveRedEye } from "react-icons/md";
 import { IoIosLock, IoMdEyeOff } from "react-icons/io";
-import "../../app/styles/passwordInput.css";
+import "../components/styles/passwordInput.css";
 import { FieldInputProps } from "formik";
 interface PasswordInputProps extends React.ComponentProps<typeof TextInput> {
   name?: string;

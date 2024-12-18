@@ -3,10 +3,10 @@ import { TextInput } from "flowbite-react";
 import Image from "next/image";
 import { Button } from "flowbite-react";
 import { useState } from "react";
-import { UserFormModal } from "@/components/userForm/UserFormModal";
 import { CiSearch } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
-import UserFormLogin from "@/components/userFormLogin/UserFormLogin";
+import { UserFormModal } from "@/components";
+import UserFormLogin from "@/components/UserFormLogin";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);

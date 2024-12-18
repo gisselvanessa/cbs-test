@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const api = axios.create({
-  //   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, // Define esto en .env.local
-  baseURL: "https://192.168.0.22:7193", 
-  headers: {
-    'Content-Type': 'application/json',
-  },
+    baseURL: "https://192.168.0.22:7193",
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    withCredentials: true, // Manejo de cookies
 });
 
 // Interceptores 

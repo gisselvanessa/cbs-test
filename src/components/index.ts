@@ -1,2 +1,2 @@
-export * from './navbar/Navbar'
-export * from './userForm/UserFormModal'
+export * from './Navbar'
+export * from './UserFormModal'

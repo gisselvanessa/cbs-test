@@ -1,11 +1,11 @@
 import { Button, Modal, Select, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import "../../app/styles/userFormLogin.css";
+import "../components/styles/userFormLogin.css";
 import Image from "next/image";
 import { FaUser } from "react-icons/fa";
 import { Field, FieldInputProps, FieldProps, Form, Formik } from "formik";
-import { ValidationSchemaLogin } from "../../app/utils/ValidationSchemaLogin";
-import PasswordInput from "../passwordInput/PasswordInput";
+import { ValidationSchemaLogin } from "../app/utils/ValidationSchemaLogin";
+import PasswordInput from "./PasswordInput";
 import { FaBuildingUser } from "react-icons/fa6";
 import { User } from "@/app/models/User";
 import { isUsername } from "@/app/services/authService";
