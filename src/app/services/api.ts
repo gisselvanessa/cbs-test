@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
   //   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, // Define esto en .env.local
-  //   baseURL: "http://192.168.0.29:7193", 
-  baseURL: "http://localhost:8084",
+  baseURL: "https://192.168.0.22:7193", 
   headers: {
     'Content-Type': 'application/json',
   },

@@ -21,6 +21,7 @@ import { Formik, Field, Form, FieldProps, FieldInputProps } from "formik";
 import { ValidationSchema } from "../../app/utils/ValidationSchema";
 // import { User } from "@/app/models/User";
 import { createUser } from "@/app/services/UserService";
+import { toast } from "react-toastify";
 interface UserFormModalProps {
   openModal: boolean;
   handleClose: () => void;
@@ -119,10 +120,8 @@ export const UserFormModal = ({
     setSelectedDepartment("");
     setSelectedRole("");
   };
-  const handleOnSubmit = async (values) => {
+  const handleOnSubmit = async (values, { resetForm }) => {
     try {
-      console.log("hi");
-      console.log(values);
       const userData = {
         personId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         officeId: Number(selectedBranch),
@@ -130,11 +129,21 @@ export const UserFormModal = ({
         ipAddress: values.ipAddress,
         userName: values.username,
       };
-      const newUser = await createUser(userData);
-      // setUser(newUser);
-      console.log("Usuario creado:", newUser);
+      console.log('Datos enviados:', userData)
+      const response = await createUser(userData);
+      if (response.status ==200) {
+        console.log("Usuario creado:", response);
+        toast.success('Usuario creado con éxito!');
+        resetForm();
+        handleClose();
+        handleResetValues();
+      } else {
+        console.error("Error al crear usuario");
+        toast.error('Algo salió mal. Intente nuevamente');
+      }
     } catch (error) {
       console.error("Error al crear usuario:", error);
+      toast.error('Algo salió mal. Intente nuevamente');
     }
   };
 

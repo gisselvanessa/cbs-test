@@ -102,8 +102,8 @@ export default function Home() {
           handleClose={handleCloseModalLogin}
         />
         <UserFormModal openModal={openModal} handleClose={handleCloseModal} />
-        <Button className="hidden" onClick={() => setOpenModal(true)}>
-          Registrar usuario098
+        <Button color="blue" onClick={() => setOpenModal(true)}>
+          Registrar usuario
         </Button>
       </div>
     </>

@@ -1,9 +1,8 @@
-import { User } from "../models/User";
 import api from "./api";
 
 const url = "/api/user-service/user";
 
-export const isUsername = async (username: string): Promise<User | null> => {
+export const isUsername = async (username: string) => {
   try {
     const response = await api.get(`${url}/${username}`);
     return response.data;

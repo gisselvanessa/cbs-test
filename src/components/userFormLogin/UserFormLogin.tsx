@@ -50,9 +50,10 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
     setLoading(true);
     try {
       const response = await isUsername(username);
-      if (response) {
-        setUserData(response);
+      if (response.status ==200) {
+        setUserData(response.data);
         setError("");
+        toast.success('Usuario encontrado');
       } else {
         handleUserNotFound();
       }
