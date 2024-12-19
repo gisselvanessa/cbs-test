@@ -8,9 +8,9 @@ import { Field, FieldInputProps, FieldProps, Form, Formik } from "formik";
 import { ValidationSchemaLogin } from "../app/utils/ValidationSchemaLogin";
 import PasswordInput from "./PasswordInput";
 import { FaBuildingUser } from "react-icons/fa6";
-import { User } from "@/app/models/User";
-import { isUsername } from "@/app/services/authService";
+import { UserPreLogin } from "@/app/models/User";
 import { toast } from "react-toastify";
+import { loginUser, preLogin } from "@/app/services/authService";
 
 interface LoginModalProps {
   openModal: boolean;
@@ -19,20 +19,12 @@ interface LoginModalProps {
 
 const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   const [selectedRole, setSelectedRole] = useState("");
-  const [userData, setUserData] = useState<User | null>(null);
+  const [userData, setUserData] = useState<UserPreLogin | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [rolesList, setRolesList] = useState<any[] | null>(null);
 
-  const handleOnSubmit = async (values: any, { setErrors }: any) => {
-    try {
-      console.log("hi");
-      console.log(values);
-      setErrors({ username: "La username es incorrecta" });
-    } catch (error) {
-      console.error("Error al crear usuario:", error);
-    }
-  };
+  
   const handleChangeRole = (
     event: React.ChangeEvent<HTMLSelectElement>,
     field: FieldInputProps<string>
@@ -49,7 +41,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
     }
     setLoading(true);
     try {
-      const response = await isUsername(username);
+      const response = await preLogin(username);
       setUserData(response);
       setRolesList(response.roles)
       setError("");
@@ -61,7 +53,24 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
       setLoading(false);
     }
   };
-  
+  const handleOnSubmit = async (values: any, { setErrors }: any) => {
+    try {
+      if(userData){
+        const credentials ={
+          UserId: userData.userId,
+          RolId: values.role,
+          Password: values.password
+        }
+        console.log(credentials)
+        const response = await loginUser(credentials);
+        console.log(response)
+      }
+      // setErrors({ username: "La username es incorrecta" });
+    } catch (error) {
+      console.error(error);
+      toast.error('UnAuthorized - Usuarion y/o Contraseña incorrectos.')
+    }
+  };
   const handleUserNotFound = () => {
     const errorMessage = "Usuario no encontrado";
     setError(errorMessage);

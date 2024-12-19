@@ -1,20 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import api from "../api/api";
 
-const url = "/api/user-service/users";
+const url = "/api/auth-service/";
 
-export const isUsername = async (userName: string) => {
+export const preLogin = async (userName: string) => {
   try {
-    const response = await api.get(`${url}/${userName}`);
+    const response = await api.get(`${url}/pre-login/${userName}`);
     return response.data;
   } catch (error: any) {
     if (error.response) {
         switch (error.response.status) {
-          
           case 404:
             throw new Error("Not Found - No se encontró el usuario con el ID proporcionado. Verifique si el ID es correcto.");
-          case 500:
-            throw new Error("Internal Server Error - Ocurrió un error inesperado al buscar el usuario.");
           default:
             throw new Error("Ha ocurrido un error inesperado.");
         }
@@ -23,15 +20,24 @@ export const isUsername = async (userName: string) => {
       }
     }
 };
-export const loginUser = async (userNameId: string, password: string, roleId: string) => {
+export const loginUser = async (credentials: any) => {
     try {
-        const response = await api.post('/api/auth/login', { userNameId, password, roleId });
+        const response = await api.post(`${url}/login`, credentials);
         return response; 
-    } catch (error) {
-        console.error('Error al iniciar sesión:', error);
-        throw new Error('No se pudo iniciar sesión');
-    }
-};
+    } catch (error:any) {
+        if (error.response) {
+            switch (error.response.status) {
+              case 401:
+                throw new Error("UnAuthorized - Usuarion y/o Contraseña incorrectos.");
+              default:
+                throw new Error("Ha ocurrido un error inesperado.");
+            }
+          } else {
+            throw new Error("Error de red o configuración.");
+          }
+        }
+    
+}
 export const logoutUser = async () => {
     try {
         const response = await api.post('/api/auth/logout');
