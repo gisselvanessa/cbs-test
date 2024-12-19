@@ -129,21 +129,16 @@ export const UserFormModal = ({
         ipAddress: values.ipAddress,
         userName: values.username,
       };
-      console.log('Datos enviados:', userData)
+      console.log("Datos enviados:", userData);
       const response = await createUser(userData);
-      if (response.status ==200) {
-        console.log("Usuario creado:", response);
-        toast.success('Usuario creado con éxito!');
-        resetForm();
-        handleClose();
-        handleResetValues();
-      } else {
-        console.error("Error al crear usuario");
-        toast.error('Algo salió mal. Intente nuevamente');
-      }
+      console.log("Usuario creado:", response);
+      toast.success("El usuario se ha creado correctamente.");
+      resetForm();
+      handleClose();
+      handleResetValues();
     } catch (error) {
       console.error("Error al crear usuario:", error);
-      toast.error('Algo salió mal. Intente nuevamente');
+      toast.error("Algo salió mal. Intente nuevamente");
     }
   };
 
@@ -171,7 +166,7 @@ export const UserFormModal = ({
         validationSchema={ValidationSchema}
         onSubmit={handleOnSubmit}
       >
-        {({ resetForm, isValid, dirty,setTouched, setErrors  }) => (
+        {({ resetForm, isValid, dirty, setTouched, setErrors }) => (
           <Modal
             size={"5xl"}
             show={openModal}
@@ -180,7 +175,7 @@ export const UserFormModal = ({
               resetForm();
               handleResetValues();
               setTouched({});
-              setErrors({}); 
+              setErrors({});
             }}
           >
             <Modal.Header className="items-center border-b-0 pb-2 pt-3">

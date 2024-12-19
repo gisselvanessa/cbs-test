@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Modal, Select, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import "../components/styles/userFormLogin.css";
@@ -42,7 +43,6 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   const handleResetValues = () => {
     setSelectedRole("");
   };
-
   const verifyUser = async (username: string) => {
     if (!username.trim()) {
       return;
@@ -50,13 +50,10 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
     setLoading(true);
     try {
       const response = await isUsername(username);
-      if (response.status ==200) {
-        setUserData(response.data);
-        setError("");
-        toast.success('Usuario encontrado');
-      } else {
-        handleUserNotFound();
-      }
+      setUserData(response);
+      setRolesList(response.roles)
+      setError("");
+      toast.success("Usuario encontrado");
     } catch (err) {
       console.error("Error verificando usuario:", err);
       handleUserNotFound();
@@ -64,6 +61,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
       setLoading(false);
     }
   };
+  
   const handleUserNotFound = () => {
     const errorMessage = "Usuario no encontrado";
     setError(errorMessage);
@@ -176,8 +174,8 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                                 Seleccione
                               </option>
                               {rolesList?.map((role) => (
-                                <option key={role.id} value={role.id}>
-                                  {role.name}
+                                <option key={role.roleId} value={role.roleId}>
+                                  {role.roleName}
                                 </option>
                               ))}
                             </Select>
