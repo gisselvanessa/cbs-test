@@ -1,7 +1,8 @@
 export interface User {
+    Id: string;
     personId: string;   
     officeId: number;    
-    roleId: number;      
+    departmentId: number;      
     ipAddress: string;   
     userName: string;    
 }

@@ -174,8 +174,8 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
                                 Seleccione
                               </option>
                               {rolesList?.map((role) => (
-                                <option key={role.roleId} value={role.roleId}>
-                                  {role.roleName}
+                                <option key={role.id} value={role.id}>
+                                  {role.name}
                                 </option>
                               ))}
                             </Select>
