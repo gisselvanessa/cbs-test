@@ -55,7 +55,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
       setError("");
       toast.success("Usuario encontrado");
     } catch (err) {
-      console.error("Error verificando usuario:", err);
+      console.error(err);
       handleUserNotFound();
     } finally {
       setLoading(false);

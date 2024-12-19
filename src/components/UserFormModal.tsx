@@ -137,7 +137,7 @@ export const UserFormModal = ({
       handleClose();
       handleResetValues();
     } catch (error) {
-      console.error("Error al crear usuario:", error);
+      console.error(error);
       toast.error("Algo salió mal. Intente nuevamente");
     }
   };
