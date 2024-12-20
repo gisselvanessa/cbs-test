@@ -34,6 +34,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   };
   const handleResetValues = () => {
     setSelectedRole("");
+    setRolesList([]);
   };
   const verifyUser = async (username: string) => {
     if (!username.trim()) {
@@ -54,7 +55,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
       setLoading(false);
     }
   };
-  const handleOnSubmit = async (values: any, { setErrors }: any) => {
+  const handleOnSubmit = async (values: any, { resetForm }: any) => {
     try {
       if(userData){
         const credentials ={
@@ -64,7 +65,8 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
         }
         console.log(credentials)
         const response = await loginUser(credentials);
-        console.log(response)
+        console.log(response);
+        resetForm();
         handleClose();
         toast.success("Inicio de sesión exitosa!");
       }
