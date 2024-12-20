@@ -1,12 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import api from "../api/api";
+import { mockPreLoginResponse } from "../test-data/preLogin.mock";
+import { AuthCredentials } from "../types/AuthCredentials.type";
 
 const url = "/api/auth-service/";
 
-export const preLogin = async (userName: string) => {
+export const preLogin = async (userName: string): Promise<any> => {
   try {
-    const response = await api.get(`${url}/pre-login/${userName}`);
-    return response.data;
+    if (process.env.NEXT_PUBLIC_API_URL === 'local') {
+        return new Promise<any>((resolve) => {
+            resolve(mockPreLoginResponse);
+        });
+    } else {
+        const response = await api.get(`${url}/pre-login/${userName}`);
+        return response.data;
+    }
   } catch (error: any) {
     if (error.response) {
         switch (error.response.status) {
@@ -20,10 +28,18 @@ export const preLogin = async (userName: string) => {
       }
     }
 };
-export const loginUser = async (credentials: any) => {
+export const loginUser = async (credentials: AuthCredentials): Promise<any> => {
     try {
-        const response = await api.post(`${url}/login`, credentials);
-        return response; 
+        if (process.env.NEXT_PUBLIC_API_URL === 'local') {
+            return new Promise<any>((resolve) => {
+                resolve({
+                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIxMjM0NTY3ODkwIiwiUm9sSWQiOiIzIiwiUGFzc3dvcmQiOjEyMzQ1Nn0.o7v_CNrkooCl0QQxUo6HwkizovfgE3fbn6A2sbQ-bk0'
+                });
+            });
+        } else {
+            const response = await api.post(`${url}/login`, credentials);
+            return response.data; 
+        }
     } catch (error:any) {
         if (error.response) {
             switch (error.response.status) {
