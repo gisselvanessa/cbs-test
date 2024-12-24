@@ -3,7 +3,7 @@ import api from "../api/api";
 import { mockPreLoginResponse } from "../test-data/preLogin.mock";
 import { AuthCredentials } from "../types/AuthCredentials.type";
 
-const url = "/api/auth-service/";
+const url = "/api/auth-service";
 
 export const preLogin = async (userName: string): Promise<any> => {
   try {

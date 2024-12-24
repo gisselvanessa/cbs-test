@@ -11,6 +11,7 @@ import { FaBuildingUser } from "react-icons/fa6";
 import { UserPreLogin } from "@/app/models/User";
 import { toast } from "react-toastify";
 import { loginUser, preLogin } from "@/app/services/authService";
+import { useSession } from "@/app/context/SessionContext";
 
 interface LoginModalProps {
   openModal: boolean;
@@ -23,7 +24,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [rolesList, setRolesList] = useState<any[] | null>(null);
-
+  const { login } = useSession();
   
   const handleChangeRole = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -64,6 +65,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
           Password: values.password
         }
         console.log(credentials)
+        login(userData.userId);
         const response = await loginUser(credentials);
         console.log(response);
         resetForm();

@@ -110,9 +110,24 @@ select:not([size]){
 }
 .bg-orange-custom{
   background-color: #EF7D00; 
+  border: 1px solid #EF7D00;
+  transition: background-color 0.5s,  border-color 0.5s;
 }
 .bg-orange-custom:hover {
-  background-color: #f18919; 
+  background-color: #ffffff; 
+  border: 1px solid #EF7D00;
+  color: #EF7D00;
+}
+.bg-orange-custom-outline{
+  background-color: #ffffff; 
+  border: 1px solid #EF7D00;
+  color: #EF7D00;
+  transition: background-color 0.5s,  border-color 0.5s;
+}
+.bg-orange-custom-outline:hover {
+  background-color: #EF7D00; 
+  border: 1px solid #EF7D00;
+  color: #ffffff;
 }
 .text-gray-light-custom{
   color: #40404080;

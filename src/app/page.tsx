@@ -2,22 +2,48 @@
 import { TextInput } from "flowbite-react";
 import Image from "next/image";
 import { Button } from "flowbite-react";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Importamos useState y useEffect
 import { CiSearch } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 import { UserFormModal } from "@/components";
 import UserFormLogin from "@/components/UserFormLogin";
+import Cookies from "js-cookie"; // Importamos js-cookie
+import { useSession } from "./context/SessionContext";
+import SessionExpire from "@/components/SessionExpire";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
   const [openModalLogin, setOpenModalLogin] = useState(false);
+  const [openModalExpireSession, setOpenModalExpireSession] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [tokenAuth, setTokenAuth] =  useState<string | undefined>(undefined); // Guardamos el valor de la cookie
+  const { session, logout } = useSession();
 
+ // Verificar el estado de la sesión al cargar la página
+ useEffect(() => {
+  const token = Cookies.get("token"); // 
+  setTokenAuth(token);
+  console.log(token)
+  if (token) {
+    setIsLoggedIn(true);
+  }
+}, []);
+const handleLogout = () => {
+  Cookies.remove("token"); // Eliminar la cookie al cerrar sesión
+  logout();
+  setIsLoggedIn(false);
+};
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+
   const handleCloseModalLogin = () => {
     setOpenModalLogin(false);
   };
+  const handleCloseModalExpireSession = () => {
+    setOpenModalExpireSession(false);
+  };
+
   const items = [
     {
       id: 1,
@@ -49,6 +75,15 @@ export default function Home() {
     <>
       <div className="relative flex flex-col justify-center items-center h-screen-custom w-full">
         <div className="absolute top-3 right-3">
+        {session ? (
+        <div>
+          <Button color="gray"
+            className=" top-3 right-4 border-none text-base font-normal text-gray-custom"
+            onClick={handleLogout}>
+            Cerrar sesión
+          </Button>
+        </div>
+      ) : (
           <Button
             className=" top-3 right-4 border-none text-base font-normal text-gray-custom"
             color="gray"
@@ -57,6 +92,7 @@ export default function Home() {
             <FaUser className="mr-3 h-4 w-4 items-center" />
             Iniciar sesión
           </Button>
+        )}
         </div>
         <div>
           <Image
@@ -81,7 +117,7 @@ export default function Home() {
             <div
               key={item.id}
               className="cursor-pointer"
-              onClick={item.onClick || undefined} // Asegúrate de manejar onClick opcionalmente
+              onClick={item.onClick || undefined}
             >
               <Image
                 width={70}
@@ -101,10 +137,24 @@ export default function Home() {
           openModal={openModalLogin}
           handleClose={handleCloseModalLogin}
         />
+        <SessionExpire
+          openModal={openModalExpireSession}
+          handleClose={handleCloseModalExpireSession}
+        />
         <UserFormModal openModal={openModal} handleClose={handleCloseModal} />
         <Button color="blue" onClick={() => setOpenModal(true)}>
           Registrar usuario
         </Button>
+        {/* Expira sesion */}
+        <Button color="blue" onClick={() => setOpenModalExpireSession(true)}>
+          Expire sesion
+        </Button>
+        {/* Mostrar el valor de la cookie*/}
+        {isLoggedIn ? (
+          <p className="text-black">Loggeado: {tokenAuth}</p>
+        ) : (
+          <p className="text-black">No se encontró la cookie.</p>
+        )}
       </div>
     </>
   );
