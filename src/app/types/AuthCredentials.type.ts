@@ -1,5 +1,5 @@
 export interface AuthCredentials {
     UserId: string; 
-    RolId: number;  
+    RoleId: number;  
     Password: string;
 }

@@ -5,7 +5,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { useRouter } from "next/navigation";
 
 type SessionContextType = {
-  session: { userId: string } | null;  // Eliminamos el token
+  session: { userId: string } | null;  
   login: (userId: string) => void;     // Solo almacenamos el userId
   logout: (redirect?: boolean) => void;
 };

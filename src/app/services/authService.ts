@@ -44,7 +44,7 @@ export const loginUser = async (credentials: AuthCredentials): Promise<any> => {
         if (error.response) {
             switch (error.response.status) {
               case 401:
-                throw new Error("UnAuthorized - Usuarion y/o Contraseña incorrectos.");
+                throw new Error("UnAuthorized - Usuario y/o Contraseña incorrectos.");
               default:
                 throw new Error("Ha ocurrido un error inesperado.");
             }

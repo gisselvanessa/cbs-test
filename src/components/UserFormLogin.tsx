@@ -11,7 +11,7 @@ import { FaBuildingUser } from "react-icons/fa6";
 import { UserPreLogin } from "@/app/models/User";
 import { toast } from "react-toastify";
 import { loginUser, preLogin } from "@/app/services/authService";
-import { useSession } from "@/app/context/SessionContext";
+// import { useSession } from "@/app/context/SessionContext";
 
 interface LoginModalProps {
   openModal: boolean;
@@ -24,7 +24,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [rolesList, setRolesList] = useState<any[] | null>(null);
-  const { login } = useSession();
+  // const { login } = useSession();
   
   const handleChangeRole = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -52,6 +52,8 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
     } catch (err) {
       console.error(err);
       handleUserNotFound();
+      handleResetValues();
+
     } finally {
       setLoading(false);
     }
@@ -61,11 +63,11 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
       if(userData){
         const credentials ={
           UserId: userData.userId,
-          RolId: Number(values.role),
+          RoleId: values.role,
           Password: values.password
         }
         console.log(credentials)
-        login(userData.userId);
+        // login(userData.userId);
         const response = await loginUser(credentials);
         console.log(response);
         resetForm();
@@ -75,7 +77,7 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
       // setErrors({ username: "La username es incorrecta" });
     } catch (error) {
       console.error(error);
-      toast.error('UnAuthorized - Usuarion y/o Contraseña incorrectos.')
+      toast.error('UnAuthorized - Usuario y/o Contraseña incorrectos.')
     }
   };
   const handleUserNotFound = () => {
