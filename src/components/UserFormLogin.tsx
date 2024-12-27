@@ -44,7 +44,6 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
     setLoading(true);
     try {
       const response = await preLogin(username);
-      console.log(response)
       setUserData(response);
       setRolesList(response.roles)
       setError("");
@@ -66,7 +65,6 @@ const UserFormLogin = ({ openModal, handleClose }: LoginModalProps) => {
           RoleId: values.role,
           Password: values.password
         }
-        console.log(credentials)
         // login(userData.userId);
         const response = await loginUser(credentials);
         console.log(response);

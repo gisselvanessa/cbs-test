@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { useSession } from "./context/SessionContext";
 import SessionExpire from "@/components/SessionExpire";
 import useInactivity from "./hooks/useInactivity";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
@@ -19,6 +20,7 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tokenAuth, setTokenAuth] = useState<string | undefined>(undefined);
   const { session, logout } = useSession();
+  const router = useRouter();
   const { isInactive } = useInactivity({
     timeout: 30000,
     onInactive: () => {
@@ -36,7 +38,7 @@ export default function Home() {
   }, []);
 
   const handleLogout = () => {
-    Cookies.remove("AuthToken");
+    // Cookies.remove("AuthToken");
     logout();
     setIsLoggedIn(false);
   };
@@ -76,7 +78,7 @@ export default function Home() {
       id: 4,
       src: "assets/icons/home/cajas.svg",
       text: "Cajas",
-      onClick: () => setOpenModalLogin(true),
+      onClick: () => router.push('hola')
     },
     {
       id: 5,
